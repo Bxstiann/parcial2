@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="ion-text-center">
+      <b>Cambiar Contraseña</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-input label="Contraseña actual" labelPlacement="floating" type="password" [(ngModel)]="claveActual" name="claveActual" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Nueva contraseña" labelPlacement="floating" type="password" [(ngModel)]="nuevaClave" name="nuevaClave" required>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Confirmar nueva contraseña" labelPlacement="floating" type="password" [(ngModel)]="confirmarClave" name="confirmarClave" required>
+    </ion-input>
+    </ion-item>
+
+    <ion-button color="success" expand="block" type="submit">
+      Cambiar Contraseña
+    </ion-button>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" style="justify-content: center; width: 100%;">
+      <ion-button routerLink="/mis_asignaturas">
+        <ion-icon slot="icon-only" name="book"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/asistencias">
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/cambiar_contrasena">
+        <ion-icon slot="icon-only" name="key"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/registrar_asistencias">
+        <ion-icon slot="icon-only" name="qr-code"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/login">
+        <ion-icon slot="icon-only" name="log-out" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="arrow-back" color="success"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+

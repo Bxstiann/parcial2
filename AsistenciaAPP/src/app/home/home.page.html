@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-button style="visibility: hidden;">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">
+      <b>HOME</b>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button routerLink="/login">
+        <ion-icon slot="icon-only" name="log-out" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-card button="True" href="mis_asignaturas">
+      <ion-card-header>
+        <ion-card-title>Mis asignaturas</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Vea su lista de asignaturas.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card button="True" href="asistencias">
+      <ion-card-header>
+        <ion-card-title>Mis asistencias</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+          Vea sus asistencias de cada asignatura y su respectiva fecha aca.
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card button="True" href="registrar_asistencias">
+    <ion-card-header>
+      <ion-card-title>Registrar asistencia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Registre sus asistencias aca.
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-card button="True" href="cambiar_contrasena">
+    <ion-card-header>
+      <ion-card-title>Cambiar contraseña</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Desea cambiar su contraseña?, por aca...
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
