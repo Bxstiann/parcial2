@@ -19,7 +19,19 @@
 
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" [(ngModel)]="pswd" name="pswd" required></ion-input>
+            <ion-input 
+              [type]="showPassword ? 'text' : 'password'" 
+              [(ngModel)]="pswd" 
+              name="pswd" 
+              required>
+            </ion-input>
+            <ion-icon 
+              slot="end" 
+              name="{{ showPassword ? 'eye-off' : 'eye' }}" 
+              color="dark" 
+              style="height: 50px; padding: 10px;" 
+              (click)="toggleShowPassword()">
+            </ion-icon>
           </ion-item>
 
           <ion-button expand="block" type="submit" color="success">Iniciar sesión</ion-button>

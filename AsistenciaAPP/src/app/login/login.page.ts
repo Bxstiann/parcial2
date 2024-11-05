@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class LoginPage {
   user: string = '';
   pswd: string = '';
+  showPassword: boolean = false; // Nueva propiedad para controlar la visibilidad de la contraseña
 
   constructor(private router: Router) {}
 
@@ -33,6 +34,10 @@ export class LoginPage {
       console.error('Credenciales incorrectas');
       // Aquí puedes agregar un mensaje de error para mostrar en el frontend
     }
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword; // Cambiar el estado de la visibilidad
   }
 
   restablecerContrasena() {
