@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title class="ion-text-center">
+      <b>Mis Asignaturas</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mis Asignaturas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-text-center">
+    <h1>Asignaturas</h1>
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Nombre</ion-label>
+        <ion-label>Código</ion-label>
+        <ion-label>Sección</ion-label>
+      </ion-item>
+
+      <ion-item *ngFor="let asignatura of userAsignaturas">
+        <ion-label>{{ asignatura.nombre }}</ion-label> <!-- Nombre de la asignatura -->
+        <ion-label>{{ asignatura.codigo | uppercase }}</ion-label> <!-- Código de la asignatura -->
+        <ion-label>{{ asignatura.seccion | uppercase }}</ion-label> <!-- Sección de la asignatura -->
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" style="justify-content: center; width: 100%;">
+      <ion-button routerLink="/mis-asignaturas">
+        <ion-icon slot="icon-only" name="book"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/asistencias">
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/cambiar_contrasena">
+        <ion-icon slot="icon-only" name="key"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/registrar_asistencias">
+        <ion-icon slot="icon-only" name="qr-code"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/login">
+        <ion-icon slot="icon-only" name="log-out" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="arrow-back" color="success"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

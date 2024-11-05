@@ -1,0 +1,75 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "docente1",
+      "password": "1234",
+      "type": "docente",
+      "nombre": "Juan Pérez",
+      "email": "juan.perez@ejemplo.com"
+    },
+    {
+      "id": 2,
+      "username": "estudiante1",
+      "password": "abcd",
+      "type": "estudiante",
+      "nombre": "Ana López",
+      "email": "ana.lopez@ejemplo.com",
+      "asignaturasInscritas": [1, 2]
+    },
+    {
+      "id": 3,
+      "username": "docente2",
+      "password": "5678",
+      "type": "docente",
+      "nombre": "María González",
+      "email": "maria.gonzalez@ejemplo.com"
+    },
+    {
+      "id": 4,
+      "username": "estudiante2",
+      "password": "efgh",
+      "type": "estudiante",
+      "nombre": "Carlos Romero",
+      "email": "carlos.romero@ejemplo.com",
+      "asignaturasInscritas": [3, 4]
+    }
+  ],
+  "asignaturas": [
+    {
+      "id": 1,
+      "codigo": "ASY4131",
+      "nombre": "Arquitectura",
+      "seccion": "001D",
+      "docenteId": 1
+    },
+    {
+      "id": 2,
+      "codigo": "CSY4111",
+      "nombre": "Calidad de software",
+      "seccion": "001D",
+      "docenteId": 1
+    },
+    {
+      "id": 3,
+      "codigo": "MAT4140",
+      "nombre": "Estadística descriptiva",
+      "seccion": "001D",
+      "docenteId": 3
+    },
+    {
+      "id": 4,
+      "codigo": "EAY4450",
+      "nombre": "Ética para el trabajo",
+      "seccion": "002D",
+      "docenteId": 3
+    },
+    {
+      "id": 5,
+      "codigo": "PGY4121",
+      "nombre": "Programación móvil",
+      "seccion": "001D",
+      "docenteId": 1
+    }
+  ]
+}
