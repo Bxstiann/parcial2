@@ -12,6 +12,7 @@ export class HomePage implements OnInit {
   userName: string | null = null;
 
   constructor(private router: Router, private toastController: ToastController) {}
+  
 
   ngOnInit() {
     this.userType = localStorage.getItem('userType');
