@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular'; // Importar ToastController
-import { HttpClient } from '@angular/common/http'; // Importar HttpClient
+import { ToastController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mis-asignaturas',
@@ -11,21 +11,19 @@ import { HttpClient } from '@angular/common/http'; // Importar HttpClient
 export class MisAsignaturasPage implements OnInit {
   userId: string | null = null;
   userType: string | null = null;
-  asignaturas: any[] = []; // Array para almacenar asignaturas
-  userAsignaturas: any[] = []; // Array para almacenar las asignaturas del usuario
+  asignaturas: any[] = [];
+  userAsignaturas: any[] = [];
 
   constructor(private router: Router, private toastController: ToastController, private http: HttpClient) {}
 
   ngOnInit() {
-    // Obtener el tipo de usuario y el ID del usuario desde localStorage
     this.userType = localStorage.getItem('userType');
     this.userId = localStorage.getItem('userId');
 
-    // Redirigir al login si no hay tipo de usuario
     if (!this.userType || !this.userId) {
       this.router.navigate(['/login']);
     } else {
-      this.loadAsignaturas(); // Cargar las asignaturas
+      this.loadAsignaturas();
     }
   }
 
@@ -33,7 +31,7 @@ export class MisAsignaturasPage implements OnInit {
     this.http.get<any[]>('http://localhost:3000/asignaturas').subscribe(
       (asignaturas) => {
         this.asignaturas = asignaturas;
-        this.filterUserAsignaturas(); // Filtrar asignaturas según el tipo de usuario
+        this.filterUserAsignaturas();
       },
       (error) => {
         console.error('Error al cargar las asignaturas:', error);
@@ -43,13 +41,14 @@ export class MisAsignaturasPage implements OnInit {
 
   filterUserAsignaturas() {
     if (this.userType === 'estudiante') {
-      const estudiante = JSON.parse(localStorage.getItem('userId')!); // Obtener estudiante
-      this.userAsignaturas = this.asignaturas.filter(asignatura => 
-        asignatura.codigo === estudiante.asignaturasInscritas
+      // Filtrar asignaturas por estudiantes
+      this.userAsignaturas = this.asignaturas.filter(asignatura =>
+        asignatura.estudiantesId.includes(Number(this.userId))
       );
     } else if (this.userType === 'docente') {
-      this.userAsignaturas = this.asignaturas.filter(asignatura => 
-        asignatura.docenteId.toString() === this.userId
+      // Filtrar asignaturas por docente
+      this.userAsignaturas = this.asignaturas.filter(asignatura =>
+        asignatura.docenteId.includes(Number(this.userId))
       );
     }
   }

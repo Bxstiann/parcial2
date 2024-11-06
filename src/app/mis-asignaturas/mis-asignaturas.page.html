@@ -24,14 +24,13 @@
       </ion-item>
 
       <ion-item *ngFor="let asignatura of userAsignaturas">
-        <ion-label>{{ asignatura.nombre }}</ion-label> <!-- Nombre de la asignatura -->
-        <ion-label>{{ asignatura.codigo | uppercase }}</ion-label> <!-- Código de la asignatura -->
-        <ion-label>{{ asignatura.seccion | uppercase }}</ion-label> <!-- Sección de la asignatura -->
+        <ion-label>{{ asignatura.nombre }}</ion-label>
+        <ion-label>{{ asignatura.codigo | uppercase }}</ion-label>
+        <ion-label>{{ asignatura.seccion | uppercase }}</ion-label>
       </ion-item>
     </ion-list>
   </div>
 </ion-content>
-
 
 <ion-footer>
   <ion-toolbar>

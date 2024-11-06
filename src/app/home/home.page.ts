@@ -20,18 +20,24 @@ export class HomePage implements OnInit {
     if (!this.userType) {
       this.router.navigate(['/login']);
     } else {
-      this.presentWelcomeToast();
+      this.showWelcomeToastIfNewLogin();
     }
   }
 
-  async presentWelcomeToast() {
-    const toast = await this.toastController.create({
-      message: `Bienvenido, ${this.userName}!`,
-      duration: 1000,
-      position: 'bottom',
-      color: 'tertiary',
-    });
-    await toast.present();
+  async showWelcomeToastIfNewLogin() {
+    const alreadyWelcomed = localStorage.getItem('alreadyWelcomed');
+    
+    if (!alreadyWelcomed) {
+      const toast = await this.toastController.create({
+        message: `Bienvenido, ${this.userName}!`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'tertiary',
+      });
+      await toast.present();
+
+      localStorage.setItem('alreadyWelcomed', 'true'); // Marcar que ya se mostró el mensaje de bienvenida
+    }
   }
 
   logout() {
