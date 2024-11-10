@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>Clases Dictadas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let clase of clasesDictadas">
+      <ion-label>
+        <h2>Asignatura ID: {{ clase.asignaturaId }}</h2>
+        <p>Fecha: {{ clase.fecha | date: 'medium' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+ 
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" style="justify-content: center; width: 100%;">
+      <ion-button routerLink="/mis_asignaturas">
+        <ion-icon slot="icon-only" name="book"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/asistencias">
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/cambiar_contrasena">
+        <ion-icon slot="icon-only" name="key"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/registrar_asistencias">
+        <ion-icon slot="icon-only" name="qr-code"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/login">
+        <ion-icon slot="icon-only" name="log-out" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="arrow-back" color="success"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -35,6 +35,11 @@ const routes: Routes = [
     path: 'registrar_asistencias',
     loadChildren: () => import('./registrar-asistencias/registrar-asistencias.module').then( m => m.RegistrarAsistenciasPageModule)
   },
+  {
+    path: 'clases-dictadas',
+    loadChildren: () => import('./clases-dictadas/clases-dictadas.module').then( m => m.ClasesDictadasPageModule)
+  },
+
 
 
 ];

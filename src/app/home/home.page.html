@@ -76,4 +76,16 @@
       ¿Desea cambiar su contraseña? Por aquí...
     </ion-card-content>
   </ion-card>
+
+  <ng-container *ngIf="userType === 'docente'">
+    <ion-card button="true" routerLink="/clases-dictadas">
+      <ion-card-header>
+        <ion-card-title>Clases Dictadas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Consulta el registro de tus clases dictadas.
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+  
 </ion-content>

@@ -40,7 +40,9 @@
       "nombre": "Arquitectura",
       "seccion": "001D",
       "docenteId": 1,
-      "estudiantesId": [2]
+      "estudiantesId": [
+        2
+      ]
     },
     {
       "id": 2,
@@ -48,7 +50,9 @@
       "nombre": "Calidad de software",
       "seccion": "001D",
       "docenteId": 1,
-      "estudiantesId": [2]
+      "estudiantesId": [
+        2
+      ]
     },
     {
       "id": 3,
@@ -56,7 +60,9 @@
       "nombre": "Estadística descriptiva",
       "seccion": "001D",
       "docenteId": 3,
-      "estudiantesId": [4]
+      "estudiantesId": [
+        4
+      ]
     },
     {
       "id": 4,
@@ -64,7 +70,9 @@
       "nombre": "Ética para el trabajo",
       "seccion": "002D",
       "docenteId": 3,
-      "estudiantesId": [4]
+      "estudiantesId": [
+        4
+      ]
     },
     {
       "id": 5,
@@ -72,7 +80,59 @@
       "nombre": "Programación móvil",
       "seccion": "001D",
       "docenteId": 1,
-      "estudiantesId": [2]
+      "estudiantesId": [
+        2
+      ]
+    }
+  ],
+  "clasesDictadas": [
+    {
+      "id": "719b",
+      "asignaturaId": 1,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:07:52.599Z"
+    },
+    {
+      "id": "5073",
+      "asignaturaId": 2,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:07:55.009Z"
+    },
+    {
+      "id": "788d",
+      "asignaturaId": 1,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:09:16.458Z"
+    },
+    {
+      "id": "8e94",
+      "asignaturaId": 1,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:10:18.034Z"
+    },
+    {
+      "id": "b913",
+      "asignaturaId": 2,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:10:20.864Z"
+    },
+    {
+      "id": "1804",
+      "asignaturaId": 1,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:15:32.424Z"
+    },
+    {
+      "id": "46fa",
+      "asignaturaId": 1,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:15:48.794Z"
+    },
+    {
+      "id": "ce1a",
+      "asignaturaId": 2,
+      "docenteId": 2,
+      "fecha": "2024-11-10T21:15:53.628Z"
     }
   ]
 }

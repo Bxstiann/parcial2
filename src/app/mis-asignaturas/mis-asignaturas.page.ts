@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -13,10 +13,13 @@ export class MisAsignaturasPage implements OnInit {
   userType: string | null = null;
   asignaturas: any[] = []; // Array para almacenar todas las asignaturas
   userAsignaturas: any[] = []; // Array para almacenar las asignaturas filtradas por usuario
+  asignaturaSeleccionadaId: number = 0;
+  qrCodeData: string | null = null;
 
   constructor(
     private router: Router,
     private toastController: ToastController,
+    private alertController: AlertController,
     private http: HttpClient
   ) {}
 
@@ -25,18 +28,17 @@ export class MisAsignaturasPage implements OnInit {
     this.userId = localStorage.getItem('userId');
 
     if (!this.userType || !this.userId) {
-      this.router.navigate(['/login']); // Si no hay un usuario logueado, redirigir al login
+      this.router.navigate(['/login']); // Redirige al login si no hay usuario
     } else {
-      this.loadAsignaturas(); // Cargar asignaturas solo si hay un usuario logueado
+      this.loadAsignaturas(); // Cargar asignaturas solo si hay usuario logueado
     }
   }
 
-  // Cargar todas las asignaturas desde el servidor (JSON Server o base de datos)
   loadAsignaturas() {
     this.http.get<any[]>('http://localhost:3000/asignaturas').subscribe(
       (asignaturas) => {
-        this.asignaturas = asignaturas; // Guardar todas las asignaturas
-        this.filterUserAsignaturas(); // Filtrar asignaturas para el usuario
+        this.asignaturas = asignaturas;
+        this.filterUserAsignaturas();
       },
       (error) => {
         console.error('Error al cargar las asignaturas:', error);
@@ -44,28 +46,100 @@ export class MisAsignaturasPage implements OnInit {
     );
   }
 
-  // Filtrar asignaturas según el tipo de usuario (estudiante o docente)
   filterUserAsignaturas() {
-    this.userAsignaturas = []; // Limpiar las asignaturas anteriores del usuario
+    this.userAsignaturas = [];
 
     if (this.userType === 'estudiante') {
-      const estudianteId = Number(this.userId); // Asegurarse de que el ID sea un número
-      // Filtrar asignaturas donde el ID del estudiante esté en el campo estudiantesId
+      const estudianteId = Number(this.userId);
       this.userAsignaturas = this.asignaturas.filter(asignatura =>
-        asignatura.estudiantesId.includes(estudianteId) // Verificar si el estudiante está inscrito
+        asignatura.estudiantesId.includes(estudianteId)
       );
     } else if (this.userType === 'docente') {
-      const docenteId = Number(this.userId); // Asegurarse de que el ID sea un número
-      // Filtrar asignaturas donde el docenteId coincida con el userId
+      const docenteId = Number(this.userId);
       this.userAsignaturas = this.asignaturas.filter(asignatura =>
-        asignatura.docenteId === docenteId // Verificar si el docente enseña esta asignatura
+        asignatura.docenteId === docenteId
       );
     }
+
+    this.userAsignaturas = this.userAsignaturas.map(asignatura => ({ ...asignatura, qrCodeData: '' }));
   }
 
-  // Función de logout
+  async generarQr(asignatura: any) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: 'Al generar un código QR, se registrará una clase dictada, ¿desea continuar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Generación de QR cancelada');
+          },
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            // Generar el QR y asignarlo a la asignatura específica
+            asignatura.qrCodeData = `http://localhost:3000/asistencia/${asignatura.id}`;
+            
+            // Registrar la clase en la base de datos
+            const nuevaClase = {
+              asignaturaId: asignatura.id,
+              docenteId: Number(this.userId),
+              fecha: new Date().toISOString()
+            };
+  
+            this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
+              () => {
+                console.log('Clase registrada exitosamente');
+                this.mostrarToast('Clase registrada y QR generado exitosamente');
+              },
+              (error) => {
+                console.error('Error al registrar la clase:', error);
+                this.mostrarToast('Error al registrar la clase');
+              }
+            );
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
+  // Método para mostrar un mensaje de notificación en pantalla
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+    });
+    await toast.present();
+  }
+  
+  
+  
+
+  // Método para registrar la clase en la base de datos
+  registrarClase(asignatura: any) {
+    const nuevaClase = {
+      asignaturaId: asignatura.id,
+      docenteId: this.userId,
+      fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
+    };
+
+    this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
+      (response) => {
+        console.log('Clase registrada exitosamente:', response);
+      },
+      (error) => {
+        console.error('Error al registrar la clase:', error);
+      }
+    );
+  }
+
   logout() {
-    localStorage.clear(); // Limpiar el localStorage
-    this.router.navigate(['/login']); // Redirigir al login
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
