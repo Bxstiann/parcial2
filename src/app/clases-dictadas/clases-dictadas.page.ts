@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -8,19 +9,32 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ClasesDictadasPage implements OnInit {
   userId: string | null = null;
-  clasesDictadas: any[] = [];
+  clasesDictadas: any[] = []; // Array para almacenar las clases dictadas
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit() {
-    this.userId = localStorage.getItem('userId');
-    this.cargarClasesDictadas();
+    this.userId = localStorage.getItem('userId'); // Obtén el userId del docente logueado
+
+    if (!this.userId) {
+      this.router.navigate(['/login']); // Si no hay userId, redirigir al login
+    } else {
+      this.loadClasesDictadas(); // Cargar las clases dictadas solo si el docente está logueado
+    }
   }
 
-  cargarClasesDictadas() {
+  loadClasesDictadas() {
+    // Hacemos la petición HTTP para obtener las clases dictadas por el docente
     this.http.get<any[]>(`http://localhost:3000/clasesDictadas?docenteId=${this.userId}`).subscribe(
-      (data) => (this.clasesDictadas = data),
-      (error) => console.error('Error al cargar clases dictadas:', error)
+      (clases) => {
+        this.clasesDictadas = clases; // Almacenamos las clases obtenidas
+      },
+      (error) => {
+        console.error('Error al cargar las clases dictadas:', error);
+      }
     );
   }
 }

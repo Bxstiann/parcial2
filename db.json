@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "docente1",
       "password": "1234",
       "type": "docente",
@@ -9,7 +9,7 @@
       "email": "juan.perez@ejemplo.com"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "estudiante1",
       "password": "abcd",
       "type": "estudiante",
@@ -17,15 +17,15 @@
       "email": "ana.lopez@ejemplo.com"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "docente2",
-      "password": "5678",
+      "password": "1234",
       "type": "docente",
       "nombre": "María González",
       "email": "maria.gonzalez@ejemplo.com"
     },
     {
-      "id": 4,
+      "id": "4",
       "username": "estudiante2",
       "password": "efgh",
       "type": "estudiante",
@@ -35,7 +35,7 @@
   ],
   "asignaturas": [
     {
-      "id": 1,
+      "id": "1",
       "codigo": "ASY4131",
       "nombre": "Arquitectura",
       "seccion": "001D",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "codigo": "CSY4111",
       "nombre": "Calidad de software",
       "seccion": "001D",
@@ -55,7 +55,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "codigo": "MAT4140",
       "nombre": "Estadística descriptiva",
       "seccion": "001D",
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "codigo": "EAY4450",
       "nombre": "Ética para el trabajo",
       "seccion": "002D",
@@ -75,7 +75,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "codigo": "PGY4121",
       "nombre": "Programación móvil",
       "seccion": "001D",
@@ -87,52 +87,32 @@
   ],
   "clasesDictadas": [
     {
-      "id": "719b",
-      "asignaturaId": 1,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:07:52.599Z"
+      "id": "e0f4",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-11T01:54:20.703Z"
     },
     {
-      "id": "5073",
-      "asignaturaId": 2,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:07:55.009Z"
+      "id": "b5da",
+      "asignaturaNombre": "Programación móvil",
+      "asignaturaId": "5",
+      "docenteId": "1",
+      "fecha": "2024-11-11T01:54:30.125Z"
     },
     {
-      "id": "788d",
-      "asignaturaId": 1,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:09:16.458Z"
+      "id": "0599",
+      "asignaturaNombre": "Calidad de software",
+      "asignaturaId": "2",
+      "docenteId": "1",
+      "fecha": "2024-11-11T01:58:43.643Z"
     },
     {
-      "id": "8e94",
-      "asignaturaId": 1,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:10:18.034Z"
-    },
-    {
-      "id": "b913",
-      "asignaturaId": 2,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:10:20.864Z"
-    },
-    {
-      "id": "1804",
-      "asignaturaId": 1,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:15:32.424Z"
-    },
-    {
-      "id": "46fa",
-      "asignaturaId": 1,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:15:48.794Z"
-    },
-    {
-      "id": "ce1a",
-      "asignaturaId": 2,
-      "docenteId": 2,
-      "fecha": "2024-11-10T21:15:53.628Z"
+      "id": "9cf6",
+      "asignaturaNombre": "Programación móvil",
+      "asignaturaId": "5",
+      "docenteId": "1",
+      "fecha": "2024-11-11T01:58:52.460Z"
     }
   ]
 }

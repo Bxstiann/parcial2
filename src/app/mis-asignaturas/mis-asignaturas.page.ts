@@ -84,19 +84,18 @@ export class MisAsignaturasPage implements OnInit {
             
             // Registrar la clase en la base de datos
             const nuevaClase = {
+              asignaturaNombre: asignatura.nombre,
               asignaturaId: asignatura.id,
-              docenteId: Number(this.userId),
-              fecha: new Date().toISOString()
+              docenteId: this.userId,
+              fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
             };
-  
+        
             this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
-              () => {
-                console.log('Clase registrada exitosamente');
-                this.mostrarToast('Clase registrada y QR generado exitosamente');
+              (response) => {
+                console.log('Clase registrada exitosamente:', response);
               },
               (error) => {
                 console.error('Error al registrar la clase:', error);
-                this.mostrarToast('Error al registrar la clase');
               }
             );
           },
@@ -111,32 +110,16 @@ export class MisAsignaturasPage implements OnInit {
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
-      duration: 2000,
-      position: 'bottom',
+      color: "success",
+      duration: 1200,
+      position: 'middle',
     });
     await toast.present();
   }
   
-  
-  
 
-  // Método para registrar la clase en la base de datos
-  registrarClase(asignatura: any) {
-    const nuevaClase = {
-      asignaturaId: asignatura.id,
-      docenteId: this.userId,
-      fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
-    };
 
-    this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
-      (response) => {
-        console.log('Clase registrada exitosamente:', response);
-      },
-      (error) => {
-        console.error('Error al registrar la clase:', error);
-      }
-    );
-  }
+
 
   logout() {
     localStorage.clear();
