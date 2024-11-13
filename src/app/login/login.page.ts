@@ -42,7 +42,7 @@ export class LoginPage {
     {
       "id": "4",
       "username": "estudiante2",
-      "password": "efgh",
+      "password": "1234",
       "type": "estudiante",
       "nombre": "Carlos Romero",
       "email": "carlos.romero@ejemplo.com"

@@ -10,11 +10,10 @@
   <div class="ion-text-center">
     <ion-accordion-group multiple="true">
       <!-- Recorremos las asistencias del usuario -->
-      <ion-accordion *ngFor="let asistencia of asistencias" [value]="asistencia.asignatura">
+      <ion-accordion *ngFor="let asistencia of asistencias" [value]="asistencia.asignaturaId">
         <ion-item slot="header" color="light">
-          <ion-label>{{ asistencia.asignatura }}</ion-label>
-          <!-- Mostramos el porcentaje de asistencia a la derecha -->
-          <ion-note slot="end" color="success">{{ asistencia.porcentajeAsistencia }}%</ion-note>
+          <ion-label>{{ asistencia.asignaturaName }}</ion-label>
+          <ion-note slot="end" color="success">{{ asistencia.estado }}</ion-note>
         </ion-item>
         
         <!-- Contenido del acordeón con detalles de la asistencia -->
@@ -41,7 +40,7 @@
       <ion-button routerLink="/cambiar_contrasena">
         <ion-icon slot="icon-only" name="key"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/registrar_asistencias">
+      <ion-button routerLink="/camara">
         <ion-icon slot="icon-only" name="qr-code"></ion-icon>
       </ion-button>
     </ion-buttons>

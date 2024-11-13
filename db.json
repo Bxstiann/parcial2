@@ -99,15 +99,88 @@
       "asignaturaId": "2",
       "docenteId": "1",
       "fecha": "2024-11-12T21:42:07.906Z"
+    },
+    {
+      "id": "0b4d",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T05:09:41.658Z"
+    },
+    {
+      "id": "17e5",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T05:48:41.451Z"
+    },
+    {
+      "id": "0798",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:07:06.593Z"
+    },
+    {
+      "id": "b266",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:08:03.896Z"
+    },
+    {
+      "id": "1521",
+      "asignaturaNombre": "Calidad de software",
+      "asignaturaId": "2",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:33:00.933Z"
+    },
+    {
+      "id": "94a5",
+      "asignaturaNombre": "Programación móvil",
+      "asignaturaId": "5",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:33:19.662Z"
+    },
+    {
+      "id": "22a0",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:39:15.599Z"
+    },
+    {
+      "id": "a6c9",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T06:57:12.103Z"
     }
   ],
   "asistencias": [
     {
-      "asignaturaId": "1",
-      "estudianteId": "1",
-      "fecha": "2024-11-10T14:00:00.000Z",
-      "estado": "Presente",
-      "id": "6ca5"
+      "id": "db0e",
+      "estudianteId": "2",
+      "asignaturaId": "2",
+      "asignaturaName": "Calidad de software",
+      "fecha": "2024-11-13T07:19:06.827Z",
+      "estado": "Presente"
+    },
+    {
+      "id": "2a7f",
+      "estudianteId": "2",
+      "asignaturaId": "2",
+      "asignaturaName": "Calidad de software",
+      "fecha": "2024-11-13T07:19:22.216Z",
+      "estado": "Presente"
+    },
+    {
+      "id": "81fc",
+      "estudianteId": "2",
+      "asignaturaId": "5",
+      "asignaturaName": "Programación móvil",
+      "fecha": "2024-11-13T07:19:36.234Z",
+      "estado": "Presente"
     }
   ]
 }

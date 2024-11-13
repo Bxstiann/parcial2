@@ -38,26 +38,30 @@ export class AsistenciasPage implements OnInit {
   }
 
   // Método para registrar asistencia desde el escaneo de QR en la página 'camara'
-  registrarAsistencia(asignaturaId: string) {
-    const nuevaAsistencia = {
-      estudianteId: this.userId,
-      asignaturaId: asignaturaId,
-      fecha: new Date().toISOString(), // Fecha actual en formato ISO
-      estado: 'Presente'
-    };
+// AsistenciasPage.ts
 
-    // Guardar la asistencia en la base de datos
-    this.http.post('http://localhost:3000/asistencias', nuevaAsistencia).subscribe(
-      async (response) => {
-        this.asistencias.push(nuevaAsistencia); // Añadir al array local para mostrar en la lista
-        this.mostrarToast('Asistencia registrada exitosamente');
-      },
-      (error) => {
-        console.error('Error al registrar la asistencia:', error);
-        this.mostrarToast('Error al registrar la asistencia');
-      }
-    );
-  }
+// Método para registrar asistencia desde el escaneo de QR
+registrarAsistencia(asignaturaId: string) {
+  const nuevaAsistencia = {
+    estudianteId: this.userId,
+    asignaturaId: asignaturaId,
+    fecha: new Date().toISOString(), // Fecha actual en formato ISO
+    estado: 'Presente'
+  };
+
+  // Guardar la asistencia en la base de datos
+  this.http.post('http://localhost:3000/asistencias', nuevaAsistencia).subscribe(
+    async (response) => {
+      this.asistencias.push(nuevaAsistencia); // Añadir al array local para mostrar en la lista
+      this.mostrarToast('Asistencia registrada exitosamente');
+    },
+    (error) => {
+      console.error('Error al registrar la asistencia:', error);
+      this.mostrarToast('Error al registrar la asistencia');
+    }
+  );
+}
+
 
   cargarAsistencias() {
     const estudianteId = localStorage.getItem('userId');

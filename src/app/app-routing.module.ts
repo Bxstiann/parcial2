@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./mis-asignaturas/mis-asignaturas.module').then( m => m.MisAsignaturasPageModule)
   },
   {
-    path: 'registrar_asistencias',
+    path: 'registrar-asistencias',
     loadChildren: () => import('./registrar-asistencias/registrar-asistencias.module').then( m => m.RegistrarAsistenciasPageModule)
   },
   {
