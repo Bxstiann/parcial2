@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { LoginService } from '../servicios/login.service'; // Asegúrate de importar el servicio
 
 @Component({
   selector: 'app-login',
@@ -13,43 +14,11 @@ export class LoginPage {
   showPassword: boolean = false;
   errorMessage: string = '';
 
-  // Definir usuarios locales
-  users = [
-    {
-      "id": "1",
-      "username": "docente1",
-      "password": "1234",
-      "type": "docente",
-      "nombre": "Juan Pérez",
-      "email": "juan.perez@ejemplo.com"
-    },
-    {
-      "id": "2",
-      "username": "estudiante1",
-      "password": "1234",
-      "type": "estudiante",
-      "nombre": "Ana López",
-      "email": "ana.lopez@ejemplo.com"
-    },
-    {
-      "id": "3",
-      "username": "docente2",
-      "password": "1234",
-      "type": "docente",
-      "nombre": "María González",
-      "email": "maria.gonzalez@ejemplo.com"
-    },
-    {
-      "id": "4",
-      "username": "estudiante2",
-      "password": "1234",
-      "type": "estudiante",
-      "nombre": "Carlos Romero",
-      "email": "carlos.romero@ejemplo.com"
-    }
-  ];
-
-  constructor(private router: Router, private toastController: ToastController) {}
+  constructor(
+    private router: Router,
+    private toastController: ToastController,
+    private loginService: LoginService // Inyectamos el servicio
+  ) {}
 
   async onSubmit() {
     this.errorMessage = ''; // Reset error message before each submission
@@ -59,22 +28,32 @@ export class LoginPage {
       return;
     }
 
-    // Buscar el usuario en el array de usuarios locales
-    const foundUser = this.users.find((user) => user.username === this.user && user.password === this.pswd);
+    // Llamamos al servicio para obtener los usuarios
+    this.loginService.getUsers().subscribe(
+      (users) => {
+        // Buscar el usuario con las credenciales proporcionadas
+        const foundUser = users.find((user) => user.username === this.user && user.password === this.pswd);
 
-    if (foundUser) {
-      // Guardar la información del usuario en el localStorage
-      localStorage.setItem('userType', foundUser.type);
-      localStorage.setItem('userName', foundUser.nombre);
-      localStorage.setItem('userId', foundUser.id.toString());
+        if (foundUser) {
+          // Guardar la información del usuario en el localStorage
+          localStorage.setItem('userType', foundUser.type);
+          localStorage.setItem('userName', foundUser.nombre);
+          localStorage.setItem('userId', foundUser.id.toString());
 
-      // Redirigir a la página principal
-      this.router.navigate(['/home']);
-    } else {
-      this.errorMessage = 'Usuario o contraseña incorrectos.';
-      // Mostrar mensaje de error
-      this.presentErrorToast(this.errorMessage);
-    }
+          // Redirigir a la página principal
+          this.router.navigate(['/home']);
+        } else {
+          this.errorMessage = 'Usuario o contraseña incorrectos.';
+          // Mostrar mensaje de error
+          this.presentErrorToast(this.errorMessage);
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los usuarios:', error);
+        this.errorMessage = 'Hubo un error al conectar con el servidor.';
+        this.presentErrorToast(this.errorMessage);
+      }
+    );
   }
 
   async presentErrorToast(message: string) {

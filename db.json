@@ -11,7 +11,7 @@
     {
       "id": "2",
       "username": "estudiante1",
-      "password": "1234",
+      "password": "asdf",
       "type": "estudiante",
       "nombre": "Ana López",
       "email": "ana.lopez@ejemplo.com"
@@ -87,74 +87,60 @@
   ],
   "clasesDictadas": [
     {
-      "id": "eae1",
+      "id": "af16",
       "asignaturaNombre": "Arquitectura",
       "asignaturaId": "1",
       "docenteId": "1",
-      "fecha": "2024-11-12T21:41:26.313Z"
+      "fecha": "2024-11-13T07:40:57.522Z"
     },
     {
-      "id": "47d9",
+      "id": "d482",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:40:59.068Z"
+    },
+    {
+      "id": "5c09",
       "asignaturaNombre": "Calidad de software",
       "asignaturaId": "2",
       "docenteId": "1",
-      "fecha": "2024-11-12T21:42:07.906Z"
+      "fecha": "2024-11-13T07:41:01.384Z"
     },
     {
-      "id": "0b4d",
+      "id": "f80d",
       "asignaturaNombre": "Arquitectura",
       "asignaturaId": "1",
       "docenteId": "1",
-      "fecha": "2024-11-13T05:09:41.658Z"
+      "fecha": "2024-11-13T07:41:03.579Z"
     },
     {
-      "id": "17e5",
+      "id": "1570",
       "asignaturaNombre": "Arquitectura",
       "asignaturaId": "1",
       "docenteId": "1",
-      "fecha": "2024-11-13T05:48:41.451Z"
+      "fecha": "2024-11-13T07:42:20.535Z"
     },
     {
-      "id": "0798",
-      "asignaturaNombre": "Arquitectura",
-      "asignaturaId": "1",
-      "docenteId": "1",
-      "fecha": "2024-11-13T06:07:06.593Z"
-    },
-    {
-      "id": "b266",
-      "asignaturaNombre": "Arquitectura",
-      "asignaturaId": "1",
-      "docenteId": "1",
-      "fecha": "2024-11-13T06:08:03.896Z"
-    },
-    {
-      "id": "1521",
-      "asignaturaNombre": "Calidad de software",
-      "asignaturaId": "2",
-      "docenteId": "1",
-      "fecha": "2024-11-13T06:33:00.933Z"
-    },
-    {
-      "id": "94a5",
+      "id": "4346",
       "asignaturaNombre": "Programación móvil",
       "asignaturaId": "5",
       "docenteId": "1",
-      "fecha": "2024-11-13T06:33:19.662Z"
+      "fecha": "2024-11-13T07:42:24.125Z"
     },
     {
-      "id": "22a0",
+      "id": "12fc",
+      "asignaturaNombre": "Calidad de software",
+      "asignaturaId": "2",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:42:27.390Z"
+    },
+    {
+      "id": "b163",
       "asignaturaNombre": "Arquitectura",
       "asignaturaId": "1",
       "docenteId": "1",
-      "fecha": "2024-11-13T06:39:15.599Z"
-    },
-    {
-      "id": "a6c9",
-      "asignaturaNombre": "Arquitectura",
-      "asignaturaId": "1",
-      "docenteId": "1",
-      "fecha": "2024-11-13T06:57:12.103Z"
+      "fecha": "2024-11-13T07:42:29.874Z"
     }
   ],
   "asistencias": [
