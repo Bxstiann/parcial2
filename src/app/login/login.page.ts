@@ -11,29 +11,69 @@ export class LoginPage {
   user: string = '';
   pswd: string = '';
   showPassword: boolean = false;
+  errorMessage: string = '';
+
+  // Definir usuarios locales
+  users = [
+    {
+      "id": "1",
+      "username": "docente1",
+      "password": "1234",
+      "type": "docente",
+      "nombre": "Juan Pérez",
+      "email": "juan.perez@ejemplo.com"
+    },
+    {
+      "id": "2",
+      "username": "estudiante1",
+      "password": "1234",
+      "type": "estudiante",
+      "nombre": "Ana López",
+      "email": "ana.lopez@ejemplo.com"
+    },
+    {
+      "id": "3",
+      "username": "docente2",
+      "password": "1234",
+      "type": "docente",
+      "nombre": "María González",
+      "email": "maria.gonzalez@ejemplo.com"
+    },
+    {
+      "id": "4",
+      "username": "estudiante2",
+      "password": "efgh",
+      "type": "estudiante",
+      "nombre": "Carlos Romero",
+      "email": "carlos.romero@ejemplo.com"
+    }
+  ];
 
   constructor(private router: Router, private toastController: ToastController) {}
 
   async onSubmit() {
+    this.errorMessage = ''; // Reset error message before each submission
+
     if (!this.user || !this.pswd) {
-      await this.presentErrorToast('Por favor, complete todos los campos.');
+      this.errorMessage = 'Por favor, complete todos los campos.';
       return;
     }
 
-    // Obtener usuarios del JSON Server
-    const response = await fetch('http://localhost:3000/users');
-    const users = await response.json();
-
-    // Encontrar el usuario
-    const foundUser = users.find((user: any) => user.username === this.user && user.password === this.pswd);
+    // Buscar el usuario en el array de usuarios locales
+    const foundUser = this.users.find((user) => user.username === this.user && user.password === this.pswd);
 
     if (foundUser) {
+      // Guardar la información del usuario en el localStorage
       localStorage.setItem('userType', foundUser.type);
       localStorage.setItem('userName', foundUser.nombre);
       localStorage.setItem('userId', foundUser.id.toString());
+
+      // Redirigir a la página principal
       this.router.navigate(['/home']);
     } else {
-      await this.presentErrorToast('Usuario o contraseña incorrectos.');
+      this.errorMessage = 'Usuario o contraseña incorrectos.';
+      // Mostrar mensaje de error
+      this.presentErrorToast(this.errorMessage);
     }
   }
 
@@ -52,6 +92,6 @@ export class LoginPage {
   }
 
   restablecerContrasena() {
-    // Lógica para restablecer la contraseña
+    // Lógica para restablecer la contraseña (puedes agregar tu propia funcionalidad)
   }
 }

@@ -1,14 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>camara</ion-title>
+    <ion-title>Escanear QR</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
+<ion-content [fullscreen]="true" class="ion-padding">
 
   <ion-button (click)="startScann()" expand="block" fill="clear" shape="round">
-    ESCANEAR QR DE CLASE
+    Escanear QR de Clase
   </ion-button>
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="secondary" style="justify-content: center; width: 100%;">
+      <ion-button routerLink="/mis_asignaturas">
+        <ion-icon slot="icon-only" name="book"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/asistencias">
+        <ion-icon slot="icon-only" name="calendar"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/cambiar_contrasena">
+        <ion-icon slot="icon-only" name="key"></ion-icon>
+      </ion-button>
+      <ion-button routerLink="/registrar_asistencias">
+        <ion-icon slot="icon-only" name="qr-code"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button routerLink="/login">
+        <ion-icon slot="icon-only" name="log-out" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">
+        <ion-icon slot="icon-only" name="arrow-back" color="success"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
