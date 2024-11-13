@@ -11,7 +11,7 @@
     {
       "id": "2",
       "username": "estudiante1",
-      "password": "abcd",
+      "password": "1234",
       "type": "estudiante",
       "nombre": "Ana López",
       "email": "ana.lopez@ejemplo.com"
@@ -87,32 +87,27 @@
   ],
   "clasesDictadas": [
     {
-      "id": "e0f4",
+      "id": "eae1",
       "asignaturaNombre": "Arquitectura",
       "asignaturaId": "1",
       "docenteId": "1",
-      "fecha": "2024-11-11T01:54:20.703Z"
+      "fecha": "2024-11-12T21:41:26.313Z"
     },
     {
-      "id": "b5da",
-      "asignaturaNombre": "Programación móvil",
-      "asignaturaId": "5",
-      "docenteId": "1",
-      "fecha": "2024-11-11T01:54:30.125Z"
-    },
-    {
-      "id": "0599",
+      "id": "47d9",
       "asignaturaNombre": "Calidad de software",
       "asignaturaId": "2",
       "docenteId": "1",
-      "fecha": "2024-11-11T01:58:43.643Z"
-    },
+      "fecha": "2024-11-12T21:42:07.906Z"
+    }
+  ],
+  "asistencias": [
     {
-      "id": "9cf6",
-      "asignaturaNombre": "Programación móvil",
-      "asignaturaId": "5",
-      "docenteId": "1",
-      "fecha": "2024-11-11T01:58:52.460Z"
+      "asignaturaId": "1",
+      "estudianteId": "1",
+      "fecha": "2024-11-10T14:00:00.000Z",
+      "estado": "Presente",
+      "id": "6ca5"
     }
   ]
 }

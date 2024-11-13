@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: 'camara',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
@@ -24,10 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./cambiarcontrasena/cambiarcontrasena.module').then( m => m.CambiarcontrasenaPageModule)
   },
   {
-    path: 'camara',
-    loadChildren: () => import('./camara/camara.module').then( m => m.CamaraPageModule)
-  },
-  {
     path: 'mis_asignaturas',
     loadChildren: () => import('./mis-asignaturas/mis-asignaturas.module').then( m => m.MisAsignaturasPageModule)
   },
@@ -38,6 +34,10 @@ const routes: Routes = [
   {
     path: 'clases-dictadas',
     loadChildren: () => import('./clases-dictadas/clases-dictadas.module').then( m => m.ClasesDictadasPageModule)
+  },
+  {
+    path: 'camara',
+    loadChildren: () => import('./camara/camara.module').then( m => m.CamaraPageModule)
   },
 
 

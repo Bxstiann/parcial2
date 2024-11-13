@@ -11,9 +11,8 @@ import { HttpClient } from '@angular/common/http';
 export class MisAsignaturasPage implements OnInit {
   userId: string | null = null;
   userType: string | null = null;
-  asignaturas: any[] = []; // Array para almacenar todas las asignaturas
-  userAsignaturas: any[] = []; // Array para almacenar las asignaturas filtradas por usuario
-  asignaturaSeleccionadaId: number = 0;
+  asignaturas: any[] = [];
+  userAsignaturas: any[] = [];
   qrCodeData: string | null = null;
 
   constructor(
@@ -28,9 +27,9 @@ export class MisAsignaturasPage implements OnInit {
     this.userId = localStorage.getItem('userId');
 
     if (!this.userType || !this.userId) {
-      this.router.navigate(['/login']); // Redirige al login si no hay usuario
+      this.router.navigate(['/login']);
     } else {
-      this.loadAsignaturas(); // Cargar asignaturas solo si hay usuario logueado
+      this.loadAsignaturas();
     }
   }
 
@@ -93,9 +92,11 @@ export class MisAsignaturasPage implements OnInit {
             this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
               (response) => {
                 console.log('Clase registrada exitosamente:', response);
+                this.mostrarToast('Clase registrada y QR generado.');
               },
               (error) => {
                 console.error('Error al registrar la clase:', error);
+                this.mostrarToast('Error al registrar la clase.');
               }
             );
           },
@@ -106,7 +107,6 @@ export class MisAsignaturasPage implements OnInit {
     await alert.present();
   }
   
-  // Método para mostrar un mensaje de notificación en pantalla
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -117,10 +117,6 @@ export class MisAsignaturasPage implements OnInit {
     await toast.present();
   }
   
-
-
-
-
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);

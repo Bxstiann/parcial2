@@ -8,13 +8,18 @@ import { AsistenciasPageRoutingModule } from './asistencias-routing.module';
 
 import { AsistenciasPage } from './asistencias.page';
 
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AsistenciasPageRoutingModule
+    AsistenciasPageRoutingModule,
+    NgxScannerQrcodeModule // Importa el módulo aquí
+
   ],
   declarations: [AsistenciasPage]
 })
 export class AsistenciasPageModule {}
+
