@@ -25,7 +25,7 @@ export class AsistenciasPage implements OnInit {
   // Método para cargar asistencias desde la base de datos
   cargarAsistencias() {
     const estudianteId = localStorage.getItem('userId');
-    this.http.get<any[]>(`http://localhost:3000/asistencias?estudianteId=${estudianteId}`).subscribe(
+    this.http.get<any[]>(`https://my-json-server.typicode.com/dedcodex27800/registrapp/asistencias?estudianteId=${estudianteId}`).subscribe(
       (data) => {
         this.asistencias = data;
       },

@@ -34,7 +34,7 @@ export class MisAsignaturasPage implements OnInit {
   }
 
   loadAsignaturas() {
-    this.http.get<any[]>('http://localhost:3000/asignaturas').subscribe(
+    this.http.get<any[]>('https://my-json-server.typicode.com/dedcodex27800/registrapp/asignaturas').subscribe(
       (asignaturas) => {
         this.asignaturas = asignaturas;
         this.filterUserAsignaturas();
@@ -65,7 +65,7 @@ export class MisAsignaturasPage implements OnInit {
 
   async generarQr(asignatura: any) {
     // Verificar clases previas para la asignatura
-    this.http.get<any[]>(`http://localhost:3000/clasesDictadas?asignaturaId=${asignatura.id}`).subscribe(
+    this.http.get<any[]>(`https://my-json-server.typicode.com/dedcodex27800/registrapp/clasesDictadas?asignaturaId=${asignatura.id}`).subscribe(
       async (clases) => {
         // Filtrar clases de la misma asignatura
         const clasesFiltradas = clases.filter(clase => clase.asignaturaId === asignatura.id);
@@ -107,7 +107,7 @@ export class MisAsignaturasPage implements OnInit {
               text: 'Sí',
               handler: () => {
                 // Generar el QR y asignarlo a la asignatura específica
-                asignatura.qrCodeData = `http://localhost:3000/asistencia/${asignatura.id}`;
+                asignatura.qrCodeData = `https://my-json-server.typicode.com/dedcodex27800/registrapp/asistencia/${asignatura.id}`;
                 
                 // Registrar la clase en la base de datos
                 const nuevaClase = {
@@ -117,7 +117,7 @@ export class MisAsignaturasPage implements OnInit {
                   fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
                 };
             
-                this.http.post('http://localhost:3000/clasesDictadas', nuevaClase).subscribe(
+                this.http.post('https://my-json-server.typicode.com/dedcodex27800/registrapp/clasesDictadas', nuevaClase).subscribe(
                   (response) => {
                     console.log('Clase registrada exitosamente:', response);
                     this.mostrarToast('Clase registrada y QR generado.');

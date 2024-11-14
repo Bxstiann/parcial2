@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Suponiendo que la URL base del API es http://localhost:3000
+// Suponiendo que la URL base del API es https://my-json-server.typicode.com/dedcodex27800/registrapp/db
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
-  private apiUrl = 'http://localhost:3000/users'; // URL de la API de usuarios (o tu archivo JSON)
+  private apiUrl = 'https://my-json-server.typicode.com/dedcodex27800/registrapp/users'; // URL de la API de usuarios (o tu archivo JSON)
 
   constructor(private http: HttpClient) {}
 

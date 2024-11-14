@@ -55,7 +55,7 @@ export class CamaraPage implements OnInit {
 getAsignaturaName(asignaturaId: string): Promise<void> {
   console.log("Obteniendo asignatura con ID:", asignaturaId);  // Verifica el ID que llega
   return new Promise((resolve, reject) => {
-    this.httpClient.get<any>(`http://localhost:3000/asignaturas/${asignaturaId}`).subscribe(
+    this.httpClient.get<any>(`https://my-json-server.typicode.com/dedcodex27800/registrapp/asignaturas/${asignaturaId}`).subscribe(
       (asignatura) => {
         console.log("Respuesta de la API:", asignatura);  // Verifica lo que llega de la API
         if (asignatura && asignatura.nombre) {
@@ -122,7 +122,7 @@ checkIfAssistanceCanBeRegistered(asignaturaId: string) {
       console.log('Registrando asistencia con la siguiente información:', nuevaAsistencia); // Verifica los datos antes de enviarlos
 
       // Enviar la asistencia a la base de datos
-      this.httpClient.post('http://localhost:3000/asistencias', nuevaAsistencia).subscribe(
+      this.httpClient.post('https://my-json-server.typicode.com/dedcodex27800/registrapp/asistencias', nuevaAsistencia).subscribe(
         async (response: any) => {
           // Al registrar la asistencia con éxito, navegar a la página de asistencias
           this.router.navigate(['/asistencias']);

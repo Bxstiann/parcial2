@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',  // Asegúrate de que el servicio sea provisto a nivel global
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:3000/users'; // URL de la API
+  private apiUrl = 'https://my-json-server.typicode.com/dedcodex27800/registrapp/users'; // URL de la API
 
   constructor(private httpClient: HttpClient) {}
 

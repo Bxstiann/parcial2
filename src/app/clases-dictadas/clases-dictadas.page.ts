@@ -28,7 +28,7 @@ export class ClasesDictadasPage implements OnInit {
 
   loadClasesDictadas() {
     // Hacemos la petición HTTP para obtener las clases dictadas por el docente
-    this.http.get<any[]>(`http://localhost:3000/clasesDictadas?docenteId=${this.userId}`).subscribe(
+    this.http.get<any[]>(`https://my-json-server.typicode.com/dedcodex27800/registrapp/clasesDictadas?docenteId=${this.userId}`).subscribe(
       (clases) => {
         this.clasesDictadas = clases; // Almacenamos las clases obtenidas
       },
