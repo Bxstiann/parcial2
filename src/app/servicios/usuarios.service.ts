@@ -14,8 +14,8 @@ export class UsuariosService {
   // Método para obtener todos los usuarios
   obtenerUsuarios(): Observable<any[]> {
     return this.http.get<any>(`${this.apiUrl}.json`).pipe(
-      map((data: any) => data ? Object.values(data) : []), // Especifica el tipo de 'data'
-      catchError(this.manejarError) // Manejo de errores
+      map((data: any) => data ? Object.values(data) : []), // Convierte el objeto a un array de usuarios
+      catchError(this.manejarError)
     );
   }
 

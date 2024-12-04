@@ -3,6 +3,15 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs'; // Importar firstValueFrom
 
+// Definición de la interfaz para la clase dictada
+interface ClaseDictada {
+  asignaturaId: string;
+  asignaturaNombre: string;
+  docenteId: string;
+  fecha: string;
+  id?: string; // El id de Firebase, que es opcional
+}
+
 @Component({
   selector: 'app-clases-dictadas',
   templateUrl: './clases-dictadas.page.html',
@@ -10,7 +19,7 @@ import { firstValueFrom } from 'rxjs'; // Importar firstValueFrom
 })
 export class ClasesDictadasPage implements OnInit {
   userId: string | null = null;
-  clasesDictadas: any[] = []; // Array para almacenar las clases dictadas
+  clasesDictadas: ClaseDictada[] = []; // Array para almacenar las clases dictadas
 
   constructor(
     private router: Router,
@@ -30,13 +39,19 @@ export class ClasesDictadasPage implements OnInit {
   async loadClasesDictadas() {
     try {
       const response = await firstValueFrom(
-        this.http.get<any[]>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json?docenteId=${this.userId}`)
+        this.http.get<{ [key: string]: ClaseDictada }>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json`)
       );
-
-      if (response && Array.isArray(response)) {
-        this.clasesDictadas = response; // Almacena las clases obtenidas
+  
+      if (response) {
+        // Filtramos las clases para que solo se muestren las del docente actual
+        this.clasesDictadas = Object.keys(response)
+          .filter(key => response[key].docenteId === this.userId) // Filtrar por docenteId
+          .map(key => ({
+            ...response[key],  // Obtenemos la clase
+            id: key  // Agregamos el id de Firebase como propiedad
+          }));
       } else {
-        this.clasesDictadas = []; // Si no hay datos o la respuesta no es válida
+        this.clasesDictadas = [];
         console.warn('No se encontraron clases dictadas.');
       }
     } catch (error) {

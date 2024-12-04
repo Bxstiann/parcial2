@@ -21,16 +21,16 @@ export class CambiarcontrasenaPage implements OnInit {
 
   async onSubmit() {
     try {
-      // Obtener todos los usuarios
       this.usuariosService.obtenerUsuarios().subscribe(
         (usuarios) => {
+          console.log('Usuarios obtenidos:', usuarios);
           if (!usuarios || usuarios.length === 0) {
             this.mostrarMensaje("No se pudieron obtener los usuarios");
             return;
           }
 
-          // Buscar el usuario que tenga la contraseña actual
           const usuarioEncontrado = usuarios.find((u: { password: string }) => u.password === this.claveActual);
+          console.log('Usuario encontrado:', usuarioEncontrado);
 
           if (!usuarioEncontrado) {
             this.mostrarMensaje("La contraseña actual es incorrecta");
@@ -42,25 +42,26 @@ export class CambiarcontrasenaPage implements OnInit {
             return;
           }
 
-          // Actualizar la contraseña del usuario en la base de datos
+          // Agregar log para verificar la URL y los datos
+          console.log(`Actualizando contraseña para el usuario con ID: ${usuarioEncontrado.id}`);
+          console.log(`Datos: { password: ${this.nuevaClave} }`);
+
           this.usuariosService.actualizarContraseña(usuarioEncontrado.id, this.nuevaClave).subscribe(
-            async () => {
-              // Mostrar mensaje de éxito
+            async (response) => {
+              console.log('Contraseña actualizada con éxito', response);
               this.mostrarMensaje("Clave cambiada correctamente");
               this.claveActual = '';
               this.nuevaClave = '';
               this.confirmarClave = '';
             },
             (error: HttpErrorResponse) => {
-              // Mostrar mensaje de error en caso de fallo al actualizar
-              console.error(error);
+              console.error('Error al cambiar la contraseña', error);
               this.mostrarMensaje("Error al cambiar la contraseña");
             }
           );
         },
         (error: HttpErrorResponse) => {
-          // Manejar error al obtener los usuarios
-          console.error(error);
+          console.error('Error al obtener los usuarios', error);
           this.mostrarMensaje("Error al obtener los usuarios");
         }
       );
@@ -70,7 +71,6 @@ export class CambiarcontrasenaPage implements OnInit {
     }
   }
 
-  // Mostrar un mensaje tipo alerta
   async mostrarMensaje(mensaje: string) {
     const alert = await this.alertController.create({
       message: mensaje,

@@ -49,25 +49,28 @@ export class MisAsignaturasPage implements OnInit {
     this.userAsignaturas = [];
 
     if (this.userType === 'estudiante') {
-      const estudianteId = Number(this.userId);
+      const estudianteId = Number(this.userId); // Convertir userId a número
       this.userAsignaturas = this.asignaturas.filter(asignatura =>
         asignatura.estudiantesId && asignatura.estudiantesId.includes(estudianteId)
       );
     } else if (this.userType === 'docente') {
-      const docenteId = Number(this.userId);
+      const docenteId = Number(this.userId); // Convertir userId a número
       this.userAsignaturas = this.asignaturas.filter(asignatura =>
         asignatura.docenteId === docenteId
       );
     }
 
-    this.userAsignaturas = this.userAsignaturas.map(asignatura => ({ ...asignatura, qrCodeData: '' }));
+    this.userAsignaturas = this.userAsignaturas.map((asignatura, index) => ({
+      ...asignatura,
+      asignaturaNombre: index.toString(), // Asignamos el nombre como el índice numérico
+      qrCodeData: ''
+    }));
   }
 
   async generarQr(asignatura: any) {
     // Verificar clases previas para la asignatura
-    this.http.get<any[]>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json?orderBy="asignaturaId"&equalTo=${asignatura.id}`).subscribe(
+    this.http.get<any[]>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json?orderBy="asignaturaId"&equalTo="${asignatura.id}"`).subscribe(
       async (clases) => {
-        // Verificar si 'clases' es un arreglo
         const clasesFiltradas = Array.isArray(clases) ? clases : []; // Aseguramos que sea un arreglo
   
         // Obtener la fecha y hora de la clase más reciente
@@ -78,47 +81,38 @@ export class MisAsignaturasPage implements OnInit {
             return currentDate > latestDate ? current : latest;
           }, { fecha: '' });
   
-          // Si hay una clase registrada, verificar la diferencia de tiempo
           if (ultimaClase.fecha) {
             const ultimaFecha = new Date(ultimaClase.fecha);
             const fechaActual = new Date();
-  
-            // Calcular la diferencia de tiempo en horas
             const diferenciaHoras = (fechaActual.getTime() - ultimaFecha.getTime()) / (1000 * 3600);
   
             if (diferenciaHoras < 2) {
               this.mostrarToast('No se pueden registrar dos clases en menos de 2 horas.');
-              return; // Salir de la función si no se cumple la condición
+              return;
             }
           }
         }
   
-        // Si pasa la verificación de tiempo, proceder con la generación del QR y el registro de la clase
+        // Generar QR y registrar la clase
         const alert = await this.alertController.create({
           header: 'Confirmación',
           message: 'Al generar un código QR, se registrará una clase dictada, ¿desea continuar?',
           buttons: [
-            {
-              text: 'Cancelar',
-              role: 'cancel',
+            { text: 'Cancelar', role: 'cancel' },
+            { 
+              text: 'Sí', 
               handler: () => {
-                console.log('Generación de QR cancelada');
-              },
-            },
-            {
-              text: 'Sí',
-              handler: () => {
-                // Generar el QR y asignarlo a la asignatura específica
                 asignatura.qrCodeData = `https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencia/${asignatura.id}.json`;
   
-                // Registrar la clase en la base de datos
+                // Generar la nueva clase
                 const nuevaClase = {
-                  asignaturaNombre: asignatura.nombre,
                   asignaturaId: asignatura.id,
+                  asignaturaNombre: asignatura.nombre, // Nombre de la asignatura
                   docenteId: this.userId,
-                  fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
+                  fecha: new Date().toISOString(),
                 };
-  
+
+                // Guardar la clase en Firebase
                 this.http.post('https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json', nuevaClase).subscribe(
                   (response) => {
                     console.log('Clase registrada exitosamente:', response);
@@ -141,12 +135,11 @@ export class MisAsignaturasPage implements OnInit {
       }
     );
   }
-  
 
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
-      color: "success",
+      color: 'success',
       duration: 1200,
       position: 'middle',
     });
