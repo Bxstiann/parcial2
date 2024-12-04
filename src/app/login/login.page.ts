@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+<<<<<<< HEAD
 import { LoginService } from '../servicios/login.service'; // Asegúrate de importar el servicio
+=======
+import { LoginService } from '../servicios/login.service';
+>>>>>>> main
 
 @Component({
   selector: 'app-login',
@@ -17,11 +21,19 @@ export class LoginPage {
   constructor(
     private router: Router,
     private toastController: ToastController,
+<<<<<<< HEAD
     private loginService: LoginService // Inyectamos el servicio
   ) {}
 
   async onSubmit() {
     this.errorMessage = ''; // Reset error message before each submission
+=======
+    private loginService: LoginService
+  ) {}
+
+  async onSubmit() {
+    this.errorMessage = '';
+>>>>>>> main
 
     if (!this.user || !this.pswd) {
       this.errorMessage = 'Por favor, complete todos los campos.';
@@ -32,19 +44,32 @@ export class LoginPage {
     this.loginService.getUsers().subscribe(
       (users) => {
         // Buscar el usuario con las credenciales proporcionadas
+<<<<<<< HEAD
         const foundUser = users.find((user) => user.username === this.user && user.password === this.pswd);
+=======
+        const foundUser = users.find(
+          (user) => user.username === this.user && user.password === this.pswd
+        );
+>>>>>>> main
 
         if (foundUser) {
           // Guardar la información del usuario en el localStorage
           localStorage.setItem('userType', foundUser.type);
           localStorage.setItem('userName', foundUser.nombre);
+<<<<<<< HEAD
           localStorage.setItem('userId', foundUser.id.toString());
+=======
+          localStorage.setItem('userId', foundUser.id);
+>>>>>>> main
 
           // Redirigir a la página principal
           this.router.navigate(['/home']);
         } else {
           this.errorMessage = 'Usuario o contraseña incorrectos.';
+<<<<<<< HEAD
           // Mostrar mensaje de error
+=======
+>>>>>>> main
           this.presentErrorToast(this.errorMessage);
         }
       },
@@ -73,4 +98,9 @@ export class LoginPage {
   restablecerContrasena() {
     // Lógica para restablecer la contraseña (puedes agregar tu propia funcionalidad)
   }
+<<<<<<< HEAD
+=======
+
+  
+>>>>>>> main
 }

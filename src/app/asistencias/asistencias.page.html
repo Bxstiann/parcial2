@@ -9,6 +9,14 @@
 <ion-content [fullscreen]="true">
   <div class="ion-text-center">
     <ion-accordion-group multiple="true">
+<<<<<<< HEAD
+=======
+      <!-- Comprobar si hay asistencias -->
+      <div *ngIf="asistencias.length === 0">
+        <p>No hay asistencias registradas.</p>
+      </div>
+
+>>>>>>> main
       <!-- Recorremos las asistencias del usuario -->
       <ion-accordion *ngFor="let asistencia of asistencias" [value]="asistencia.asignaturaId">
         <ion-item slot="header" color="light">

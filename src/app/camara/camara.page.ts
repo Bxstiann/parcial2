@@ -11,9 +11,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CamaraPage implements OnInit {
   scanResult = '';
+<<<<<<< HEAD
   asignaturaId: string = ''; // Variable para almacenar el ID de la asignatura
   asignaturaName: string = ''; // Variable para almacenar el nombre de la asignatura
   lastScanTimestamp: number = 0; // Timestamp de la última vez que se escaneó un QR
+=======
+  asignaturaId: string = '';
+  asignaturaName: string = '';
+  lastScanTimestamp: number = 0;
+>>>>>>> main
 
   constructor(
     private modalController: ModalController,
@@ -21,13 +27,18 @@ export class CamaraPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private httpClient: HttpClient
+<<<<<<< HEAD
   ) { }
+=======
+  ) {}
+>>>>>>> main
 
   ngOnInit() {
     this.startScanner();
   }
 
   startScanner() {
+<<<<<<< HEAD
     const html5QrCode = new Html5QrcodeScanner("qr-reader", {
       fps: 10,
       qrbox: 250
@@ -140,6 +151,83 @@ checkIfAssistanceCanBeRegistered(asignaturaId: string) {
   }
 
   // Mostrar un mensaje tipo toast
+=======
+    const html5QrCode = new Html5QrcodeScanner('qr-reader', {
+      fps: 10,
+      qrbox: 250,
+    }, false);
+
+    html5QrCode.render(
+      (qrCodeMessage) => {
+        this.scanResult = qrCodeMessage;
+        this.asignaturaId = this.extractAsignaturaId(qrCodeMessage);
+        this.getAsignaturaName(this.asignaturaId);
+        html5QrCode.clear();
+      },
+      (errorMessage) => {
+        console.log(errorMessage);
+      }
+    );
+  }
+
+  extractAsignaturaId(qrData: string): string {
+    const urlParts = qrData.split('/');
+    return urlParts[urlParts.length - 1];
+  }
+
+  getAsignaturaName(asignaturaId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.httpClient
+        .get<{ nombre: string } | null>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas/${asignaturaId}.json`)
+        .subscribe(
+          (asignatura) => {
+            if (asignatura && asignatura.nombre) {
+              this.asignaturaName = asignatura.nombre;
+              resolve();
+            } else {
+              this.mostrarToast('Asignatura no encontrada');
+              reject('Asignatura no encontrada');
+            }
+          },
+          (error) => {
+            console.error('Error al obtener el nombre de la asignatura:', error);
+            this.mostrarToast('Error al obtener la asignatura');
+            reject(error);
+          }
+        );
+    });
+  }
+
+  registrarAsistencia(asignaturaId: string, asignaturaName: string) {
+    const estudianteId = localStorage.getItem('userId');
+    if (estudianteId) {
+      const nuevaAsistencia = {
+        estudianteId: estudianteId,
+        asignaturaId: asignaturaId,
+        asignaturaName: asignaturaName,
+        fecha: new Date().toISOString(),
+        estado: 'Presente',
+      };
+
+      this.httpClient
+        .post('https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencias.json', nuevaAsistencia)
+        .subscribe(
+          async (response: any) => {
+            this.router.navigate(['/asistencias']);
+            this.mostrarToast('Asistencia registrada exitosamente');
+            localStorage.setItem(`lastScanTimestamp_${asignaturaId}`, new Date().getTime().toString());
+          },
+          (error: any) => {
+            console.error('Error al registrar la asistencia:', error);
+            this.mostrarToast('Error al registrar la asistencia');
+          }
+        );
+    } else {
+      this.mostrarToast('No se encontró un ID de estudiante válido.');
+    }
+  }
+
+>>>>>>> main
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,

@@ -44,7 +44,11 @@ describe('MisAsignaturasPage', () => {
 
     component.ngOnInit();
 
+<<<<<<< HEAD
     const req = httpMock.expectOne('https://my-json-server.typicode.com/dedcodex27800/registrapp/asignaturas');
+=======
+    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas');
+>>>>>>> main
     req.flush(mockAsignaturas);
 
     expect(component.userAsignaturas.length).toBe(1);
@@ -62,7 +66,11 @@ describe('MisAsignaturasPage', () => {
 
     component.ngOnInit();
 
+<<<<<<< HEAD
     const req = httpMock.expectOne('https://my-json-server.typicode.com/dedcodex27800/registrapp/asignaturas');
+=======
+    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas');
+>>>>>>> main
     req.flush(mockAsignaturas);
 
     expect(component.userAsignaturas.length).toBe(1);

@@ -34,9 +34,15 @@ export class MisAsignaturasPage implements OnInit {
   }
 
   loadAsignaturas() {
+<<<<<<< HEAD
     this.http.get<any[]>('https://my-json-server.typicode.com/dedcodex27800/registrapp/asignaturas').subscribe(
       (asignaturas) => {
         this.asignaturas = asignaturas;
+=======
+    this.http.get<any[]>('https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas.json').subscribe(
+      (asignaturas) => {
+        this.asignaturas = asignaturas || [];
+>>>>>>> main
         this.filterUserAsignaturas();
       },
       (error) => {
@@ -51,7 +57,11 @@ export class MisAsignaturasPage implements OnInit {
     if (this.userType === 'estudiante') {
       const estudianteId = Number(this.userId);
       this.userAsignaturas = this.asignaturas.filter(asignatura =>
+<<<<<<< HEAD
         asignatura.estudiantesId.includes(estudianteId)
+=======
+        asignatura.estudiantesId && asignatura.estudiantesId.includes(estudianteId)
+>>>>>>> main
       );
     } else if (this.userType === 'docente') {
       const docenteId = Number(this.userId);
@@ -65,6 +75,7 @@ export class MisAsignaturasPage implements OnInit {
 
   async generarQr(asignatura: any) {
     // Verificar clases previas para la asignatura
+<<<<<<< HEAD
     this.http.get<any[]>(`https://my-json-server.typicode.com/dedcodex27800/registrapp/clasesDictadas?asignaturaId=${asignatura.id}`).subscribe(
       async (clases) => {
         // Filtrar clases de la misma asignatura
@@ -91,6 +102,36 @@ export class MisAsignaturasPage implements OnInit {
           }
         }
 
+=======
+    this.http.get<any[]>(`https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json?orderBy="asignaturaId"&equalTo=${asignatura.id}`).subscribe(
+      async (clases) => {
+        // Verificar si 'clases' es un arreglo
+        const clasesFiltradas = Array.isArray(clases) ? clases : []; // Aseguramos que sea un arreglo
+  
+        // Obtener la fecha y hora de la clase más reciente
+        if (clasesFiltradas.length > 0) {
+          const ultimaClase = clasesFiltradas.reduce((latest, current) => {
+            const currentDate = new Date(current.fecha);
+            const latestDate = new Date(latest.fecha);
+            return currentDate > latestDate ? current : latest;
+          }, { fecha: '' });
+  
+          // Si hay una clase registrada, verificar la diferencia de tiempo
+          if (ultimaClase.fecha) {
+            const ultimaFecha = new Date(ultimaClase.fecha);
+            const fechaActual = new Date();
+  
+            // Calcular la diferencia de tiempo en horas
+            const diferenciaHoras = (fechaActual.getTime() - ultimaFecha.getTime()) / (1000 * 3600);
+  
+            if (diferenciaHoras < 2) {
+              this.mostrarToast('No se pueden registrar dos clases en menos de 2 horas.');
+              return; // Salir de la función si no se cumple la condición
+            }
+          }
+        }
+  
+>>>>>>> main
         // Si pasa la verificación de tiempo, proceder con la generación del QR y el registro de la clase
         const alert = await this.alertController.create({
           header: 'Confirmación',
@@ -107,8 +148,13 @@ export class MisAsignaturasPage implements OnInit {
               text: 'Sí',
               handler: () => {
                 // Generar el QR y asignarlo a la asignatura específica
+<<<<<<< HEAD
                 asignatura.qrCodeData = `https://my-json-server.typicode.com/dedcodex27800/registrapp/asistencia/${asignatura.id}`;
                 
+=======
+                asignatura.qrCodeData = `https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencia/${asignatura.id}.json`;
+  
+>>>>>>> main
                 // Registrar la clase en la base de datos
                 const nuevaClase = {
                   asignaturaNombre: asignatura.nombre,
@@ -116,8 +162,13 @@ export class MisAsignaturasPage implements OnInit {
                   docenteId: this.userId,
                   fecha: new Date().toISOString() // Fecha y hora actual en formato ISO
                 };
+<<<<<<< HEAD
             
                 this.http.post('https://my-json-server.typicode.com/dedcodex27800/registrapp/clasesDictadas', nuevaClase).subscribe(
+=======
+  
+                this.http.post('https://bd-progra-9976e-default-rtdb.firebaseio.com/clasesDictadas.json', nuevaClase).subscribe(
+>>>>>>> main
                   (response) => {
                     console.log('Clase registrada exitosamente:', response);
                     this.mostrarToast('Clase registrada y QR generado.');
@@ -131,7 +182,11 @@ export class MisAsignaturasPage implements OnInit {
             },
           ],
         });
+<<<<<<< HEAD
       
+=======
+  
+>>>>>>> main
         await alert.present();
       },
       (error) => {
@@ -139,6 +194,10 @@ export class MisAsignaturasPage implements OnInit {
       }
     );
   }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> main
 
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
@@ -149,7 +208,11 @@ export class MisAsignaturasPage implements OnInit {
     });
     await toast.present();
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> main
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
