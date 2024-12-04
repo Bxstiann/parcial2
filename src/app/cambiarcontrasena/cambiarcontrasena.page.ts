@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { GlobalUsers } from '../usuarios';
+import { UsuariosService } from '../servicios/usuarios.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cambiarcontrasena',
@@ -13,32 +14,63 @@ export class CambiarcontrasenaPage implements OnInit {
   nuevaClave: string = "";
   confirmarClave: string = "";
 
-  constructor(private alertController: AlertController) { }
+  constructor(
+    private alertController: AlertController,
+    private usuariosService: UsuariosService
+  ) {}
 
   async onSubmit() {
-    const usuarioEncontrado = GlobalUsers.usuarios.find(u => u.password === this.claveActual);
+    try {
+      // Obtener todos los usuarios
+      this.usuariosService.obtenerUsuarios().subscribe(
+        (usuarios) => {
+          if (!usuarios || usuarios.length === 0) {
+            this.mostrarMensaje("No se pudieron obtener los usuarios");
+            return;
+          }
 
-    if (!usuarioEncontrado) {
-      this.mostrarMensaje("La contraseña actual es incorrecta");
-      return;
+          // Buscar el usuario que tenga la contraseña actual
+          const usuarioEncontrado = usuarios.find((u: { password: string }) => u.password === this.claveActual);
+
+          if (!usuarioEncontrado) {
+            this.mostrarMensaje("La contraseña actual es incorrecta");
+            return;
+          }
+
+          if (this.nuevaClave !== this.confirmarClave) {
+            this.mostrarMensaje("Las contraseñas no coinciden");
+            return;
+          }
+
+          // Actualizar la contraseña del usuario en la base de datos
+          this.usuariosService.actualizarContraseña(usuarioEncontrado.id, this.nuevaClave).subscribe(
+            async () => {
+              // Mostrar mensaje de éxito
+              this.mostrarMensaje("Clave cambiada correctamente");
+              this.claveActual = '';
+              this.nuevaClave = '';
+              this.confirmarClave = '';
+            },
+            (error: HttpErrorResponse) => {
+              // Mostrar mensaje de error en caso de fallo al actualizar
+              console.error(error);
+              this.mostrarMensaje("Error al cambiar la contraseña");
+            }
+          );
+        },
+        (error: HttpErrorResponse) => {
+          // Manejar error al obtener los usuarios
+          console.error(error);
+          this.mostrarMensaje("Error al obtener los usuarios");
+        }
+      );
+    } catch (error) {
+      console.error(error);
+      this.mostrarMensaje("Error inesperado");
     }
-
-    if (this.nuevaClave !== this.confirmarClave) {
-      this.mostrarMensaje("Las contraseñas no coinciden");
-      return;
-    }
-
-
-    usuarioEncontrado.password = this.nuevaClave;
-
-
-    this.claveActual = '';
-    this.nuevaClave = '';
-    this.confirmarClave = '';
-
-    this.mostrarMensaje("Clave cambiada correctamente");
   }
 
+  // Mostrar un mensaje tipo alerta
   async mostrarMensaje(mensaje: string) {
     const alert = await this.alertController.create({
       message: mensaje,

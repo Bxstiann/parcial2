@@ -19,8 +19,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ng-container *ngIf="userType === 'docente'; else studentContent">
-    <ion-card button="true" routerLink="mis_asignaturas">
+  <ng-container  *ngIf="userType === 'docente'" >
+    <ion-card button="true" routerLink="/mis_asignaturas">
       <ion-card-header>
         <ion-card-title>Gestión de Asignaturas</ion-card-title>
       </ion-card-header>
@@ -28,47 +28,38 @@
         Aquí puedes gestionar las asignaturas que dictas.
       </ion-card-content>
     </ion-card>
-
-    <ion-card button="true" routerLink="asistencias">
-      <ion-card-header>
-        <ion-card-title>Asistencias de Estudiantes</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        Revisa las asistencias de tus estudiantes aquí.
-      </ion-card-content>
-    </ion-card>
   </ng-container>
 
-  <ng-template #studentContent>
-    <ion-card button="true" routerLink="mis_asignaturas">
+  <ng-container  *ngIf="userType === 'estudiante'">
+    <ion-card button="true" routerLink="/mis_asignaturas">
       <ion-card-header>
         <ion-card-title>Mis Asignaturas</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        Veo su lista de asignaturas.
+        Aquí puedes ver la lista de asignaturas en las que estás inscrito.
       </ion-card-content>
     </ion-card>
 
-    <ion-card button="true" routerLink="asistencias">
+    <ion-card button="true" routerLink="/asistencias">
       <ion-card-header>
         <ion-card-title>Mis Asistencias</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        Vea sus asistencias de cada asignatura y su respectiva fecha aquí.
+        Revisa tus asistencias de cada asignatura y su respectiva fecha aquí.
       </ion-card-content>
     </ion-card>
 
-    <ion-card button="true" routerLink="registrar_asistencias">
+    <ion-card button="true" routerLink="/camara">
       <ion-card-header>
         <ion-card-title>Registrar Asistencia</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        Registre sus asistencias aquí.
+        Registra tus asistencias aquí.
       </ion-card-content>
     </ion-card>
-  </ng-template>
+  </ng-container>
 
-  <ion-card button="true" routerLink="cambiar_contrasena">
+  <ion-card button="true" routerLink="/cambiar_contrasena">
     <ion-card-header>
       <ion-card-title>Cambiar Contraseña</ion-card-title>
     </ion-card-header>
@@ -76,4 +67,16 @@
       ¿Desea cambiar su contraseña? Por aquí...
     </ion-card-content>
   </ion-card>
+
+  <ng-container *ngIf="userType === 'docente'">
+    <ion-card button="true" routerLink="/clases-dictadas">
+      <ion-card-header>
+        <ion-card-title>Clases Dictadas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Consulta el registro de tus clases dictadas.
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+  
 </ion-content>

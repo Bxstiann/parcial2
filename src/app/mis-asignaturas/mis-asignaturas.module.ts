@@ -8,13 +8,19 @@ import { MisAsignaturasPageRoutingModule } from './mis-asignaturas-routing.modul
 
 import { MisAsignaturasPage } from './mis-asignaturas.page';
 
+import { QRCodeModule } from 'angularx-qrcode';
+import { AppComponent } from '../app.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MisAsignaturasPageRoutingModule
+    MisAsignaturasPageRoutingModule,
+    QRCodeModule
   ],
-  declarations: [MisAsignaturasPage]
+  declarations: [MisAsignaturasPage],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class MisAsignaturasPageModule {}

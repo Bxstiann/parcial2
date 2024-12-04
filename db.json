@@ -1,64 +1,172 @@
 {
-    "users": [
-      {
-        "id": 1,
-        "username": "docente1",
-        "password": "1234",
-        "type": "docente",
-        "nombre": "Juan Pérez",
-        "email": "juan.perez@ejemplo.com"
-      },
-      {
-        "id": 2,
-        "username": "estudiante1",
-        "password": "abcd",
-        "type": "estudiante",
-        "nombre": "Ana López",
-        "email": "ana.lopez@ejemplo.com"
-      },
-      {
-        "id": 3,
-        "username": "docente2",
-        "password": "5678",
-        "type": "docente",
-        "nombre": "Maria González",
-        "email": "maria.gonzalez@ejemplo.com"
-      },
-      {
-        "id": 4,
-        "username": "estudiante2",
-        "password": "efgh",
-        "type": "estudiante",
-        "nombre": "Carlos Romero",
-        "email": "carlos.romero@ejemplo.com"
-      }
-    ],
-    "asignaturas": [
-      {
-        "codigo": "ASY4131",
-        "nombre": "Arquitectura",
-        "seccion": "001D"
-      },
-      {
-        "codigo": "CSY4111",
-        "nombre": "Calidad de software",
-        "seccion": "001D"
-      },
-      {
-        "codigo": "MAT4140",
-        "nombre": "Estadistica descriptiva",
-        "seccion": "001D"
-      },
-      {
-        "codigo": "EAY4450",
-        "nombre": "Etica para el trabajo",
-        "seccion": "002D"
-      },
-      {
-        "codigo": "PGY4121",
-        "nombre": "Programacion movil",
-        "seccion": "001D"
-      }
-    ]
-  }
-  
+  "users": [
+    {
+      "id": "1",
+      "username": "docente1",
+      "password": "1234",
+      "type": "docente",
+      "nombre": "Juan Pérez",
+      "email": "juan.perez@ejemplo.com"
+    },
+    {
+      "id": "2",
+      "username": "estudiante1",
+      "password": "asdf",
+      "type": "estudiante",
+      "nombre": "Ana López",
+      "email": "ana.lopez@ejemplo.com"
+    },
+    {
+      "id": "3",
+      "username": "docente2",
+      "password": "1234",
+      "type": "docente",
+      "nombre": "María González",
+      "email": "maria.gonzalez@ejemplo.com"
+    },
+    {
+      "id": "4",
+      "username": "estudiante2",
+      "password": "efgh",
+      "type": "estudiante",
+      "nombre": "Carlos Romero",
+      "email": "carlos.romero@ejemplo.com"
+    }
+  ],
+  "asignaturas": [
+    {
+      "id": "1",
+      "codigo": "ASY4131",
+      "nombre": "Arquitectura",
+      "seccion": "001D",
+      "docenteId": 1,
+      "estudiantesId": [
+        2
+      ]
+    },
+    {
+      "id": "2",
+      "codigo": "CSY4111",
+      "nombre": "Calidad de software",
+      "seccion": "001D",
+      "docenteId": 1,
+      "estudiantesId": [
+        2
+      ]
+    },
+    {
+      "id": "3",
+      "codigo": "MAT4140",
+      "nombre": "Estadística descriptiva",
+      "seccion": "001D",
+      "docenteId": 3,
+      "estudiantesId": [
+        4
+      ]
+    },
+    {
+      "id": "4",
+      "codigo": "EAY4450",
+      "nombre": "Ética para el trabajo",
+      "seccion": "002D",
+      "docenteId": 3,
+      "estudiantesId": [
+        4
+      ]
+    },
+    {
+      "id": "5",
+      "codigo": "PGY4121",
+      "nombre": "Programación móvil",
+      "seccion": "001D",
+      "docenteId": 1,
+      "estudiantesId": [
+        2
+      ]
+    }
+  ],
+  "clasesDictadas": [
+    {
+      "id": "af16",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:40:57.522Z"
+    },
+    {
+      "id": "d482",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:40:59.068Z"
+    },
+    {
+      "id": "5c09",
+      "asignaturaNombre": "Calidad de software",
+      "asignaturaId": "2",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:41:01.384Z"
+    },
+    {
+      "id": "f80d",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:41:03.579Z"
+    },
+    {
+      "id": "1570",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:42:20.535Z"
+    },
+    {
+      "id": "4346",
+      "asignaturaNombre": "Programación móvil",
+      "asignaturaId": "5",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:42:24.125Z"
+    },
+    {
+      "id": "12fc",
+      "asignaturaNombre": "Calidad de software",
+      "asignaturaId": "2",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:42:27.390Z"
+    },
+    {
+      "id": "b163",
+      "asignaturaNombre": "Arquitectura",
+      "asignaturaId": "1",
+      "docenteId": "1",
+      "fecha": "2024-11-13T07:42:29.874Z"
+    }
+  ],
+  "asistencias": [
+    {
+      "id": "db0e",
+      "estudianteId": "2",
+      "asignaturaId": "2",
+      "asignaturaName": "Calidad de software",
+      "fecha": "2024-11-13T07:19:06.827Z",
+      "estado": "Presente"
+    },
+    {
+      "id": "2a7f",
+      "estudianteId": "2",
+      "asignaturaId": "2",
+      "asignaturaName": "Calidad de software",
+      "fecha": "2024-11-13T07:19:22.216Z",
+      "estado": "Presente"
+    },
+    {
+      "id": "81fc",
+      "estudianteId": "2",
+      "asignaturaId": "5",
+      "asignaturaName": "Programación móvil",
+      "fecha": "2024-11-13T07:19:36.234Z",
+      "estado": "Presente"
+    }
+  ]
+}

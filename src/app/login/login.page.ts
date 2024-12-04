@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { LoginService } from '../servicios/login.service';
 
 @Component({
   selector: 'app-login',
@@ -9,39 +11,69 @@ import { Router } from '@angular/router';
 export class LoginPage {
   user: string = '';
   pswd: string = '';
-  showPassword: boolean = false; // Controlar la visibilidad de la contraseña
+  showPassword: boolean = false;
+  errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private toastController: ToastController,
+    private loginService: LoginService
+  ) {}
 
-  onSubmit() {
-    // Datos de ejemplo, reemplaza esto con tu lógica de autenticación real
-    const users = [
-      { id: 1, username: 'docente1', password: '1234', type: 'docente', nombre: 'Juan Pérez' },
-      { id: 2, username: 'estudiante1', password: 'abcd', type: 'estudiante', nombre: 'Ana López' },
-    ];
+  async onSubmit() {
+    this.errorMessage = '';
 
-    const foundUser = users.find(
-      (user) => user.username === this.user && user.password === this.pswd
-    );
-
-    if (foundUser) {
-      // Guardar el tipo de usuario y el nombre en localStorage
-      localStorage.setItem('userType', foundUser.type);
-      localStorage.setItem('userName', foundUser.nombre); // Guardar el nombre
-      // Redirigir a la página de inicio
-      this.router.navigate(['/home']);
-    } else {
-      // Manejar el error de inicio de sesión (ej. mostrar un mensaje)
-      console.error('Credenciales incorrectas');
-      // Aquí puedes agregar un mensaje de error para mostrar en el frontend
+    if (!this.user || !this.pswd) {
+      this.errorMessage = 'Por favor, complete todos los campos.';
+      return;
     }
+
+    // Llamamos al servicio para obtener los usuarios
+    this.loginService.getUsers().subscribe(
+      (users) => {
+        // Buscar el usuario con las credenciales proporcionadas
+        const foundUser = users.find(
+          (user) => user.username === this.user && user.password === this.pswd
+        );
+
+        if (foundUser) {
+          // Guardar la información del usuario en el localStorage
+          localStorage.setItem('userType', foundUser.type);
+          localStorage.setItem('userName', foundUser.nombre);
+          localStorage.setItem('userId', foundUser.id);
+
+          // Redirigir a la página principal
+          this.router.navigate(['/home']);
+        } else {
+          this.errorMessage = 'Usuario o contraseña incorrectos.';
+          this.presentErrorToast(this.errorMessage);
+        }
+      },
+      (error) => {
+        console.error('Error al obtener los usuarios:', error);
+        this.errorMessage = 'Hubo un error al conectar con el servidor.';
+        this.presentErrorToast(this.errorMessage);
+      }
+    );
+  }
+
+  async presentErrorToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 1000,
+      position: 'bottom',
+      color: 'danger',
+    });
+    await toast.present();
   }
 
   toggleShowPassword() {
-    this.showPassword = !this.showPassword; // Cambiar el estado de la visibilidad
+    this.showPassword = !this.showPassword;
   }
 
   restablecerContrasena() {
-    // Lógica para restablecer la contraseña
+    // Lógica para restablecer la contraseña (puedes agregar tu propia funcionalidad)
   }
+
+  
 }

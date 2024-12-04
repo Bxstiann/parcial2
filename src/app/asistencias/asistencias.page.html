@@ -6,26 +6,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" >
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">asistencias</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true">
   <div class="ion-text-center">
-    <h1 class="ion-text-center">Asistencias</h1>
-
     <ion-accordion-group multiple="true">
-      <ion-accordion *ngFor="let asistencia of asistencias" [value]="asistencia.asignatura">
+      <!-- Comprobar si hay asistencias -->
+      <div *ngIf="asistencias.length === 0">
+        <p>No hay asistencias registradas.</p>
+      </div>
+
+      <!-- Recorremos las asistencias del usuario -->
+      <ion-accordion *ngFor="let asistencia of asistencias" [value]="asistencia.asignaturaId">
         <ion-item slot="header" color="light">
-          <ion-label>{{ asistencia.asignatura }}</ion-label>
+          <ion-label>{{ asistencia.asignaturaName }}</ion-label>
+          <ion-note slot="end" color="success">{{ asistencia.estado }}</ion-note>
         </ion-item>
-        <div class="ion-padding" slot="content">Fecha: {{ asistencia.fecha }}</div>
-        <div class="ion-padding" slot="content">Estado: {{ asistencia.estado }}</div>
+        
+        <!-- Contenido del acordeón con detalles de la asistencia -->
+        <div class="ion-padding" slot="content">
+          Fecha: {{ asistencia.fecha }}
+        </div>
+        <div class="ion-padding" slot="content">
+          Estado: {{ asistencia.estado }}
+        </div>
       </ion-accordion>
     </ion-accordion-group>
-
   </div>
 </ion-content>
 
@@ -41,7 +45,7 @@
       <ion-button routerLink="/cambiar_contrasena">
         <ion-icon slot="icon-only" name="key"></ion-icon>
       </ion-button>
-      <ion-button routerLink="/registrar_asistencias">
+      <ion-button routerLink="/camara">
         <ion-icon slot="icon-only" name="qr-code"></ion-icon>
       </ion-button>
     </ion-buttons>

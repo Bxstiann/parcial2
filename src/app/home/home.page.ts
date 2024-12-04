@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular'; // Importar ToastController
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -9,35 +9,39 @@ import { ToastController } from '@ionic/angular'; // Importar ToastController
 })
 export class HomePage implements OnInit {
   userType: string | null = null;
-  userName: string | null = null; // Para almacenar el nombre del usuario
+  userName: string | null = null;
 
   constructor(private router: Router, private toastController: ToastController) {}
+  
 
   ngOnInit() {
-    // Obtén el tipo de usuario y el nombre desde localStorage
     this.userType = localStorage.getItem('userType');
-    this.userName = localStorage.getItem('userName'); // Obtener el nombre
+    this.userName = localStorage.getItem('userName');
 
-    // Redirigir al login si no hay tipo de usuario
     if (!this.userType) {
       this.router.navigate(['/login']);
     } else {
-      this.presentWelcomeToast(); // Mostrar el mensaje de bienvenida
+      this.showWelcomeToastIfNewLogin();
     }
   }
 
-  async presentWelcomeToast() {
-    const toast = await this.toastController.create({
-      message: `Bienvenido, ${this.userName}!`, // Mensaje de bienvenida
-      duration: 2000, // Duración en milisegundos
-      position: 'bottom', // Posición del toast
-      color: 'tertiary', // Color del toast
-    });
-    await toast.present(); // Presentar el toast
+  async showWelcomeToastIfNewLogin() {
+    const alreadyWelcomed = localStorage.getItem('alreadyWelcomed');
+    
+    if (!alreadyWelcomed) {
+      const toast = await this.toastController.create({
+        message: `Bienvenido, ${this.userName}!`,
+        duration: 1000,
+        position: 'bottom',
+        color: 'tertiary',
+      });
+      await toast.present();
+
+      localStorage.setItem('alreadyWelcomed', 'true'); // Marcar que ya se mostró el mensaje de bienvenida
+    }
   }
 
   logout() {
-    // Limpiar el localStorage y redirigir al login
     localStorage.clear();
     this.router.navigate(['/login']);
   }
