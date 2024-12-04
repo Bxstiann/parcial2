@@ -19,12 +19,18 @@ export class UsuariosService {
     );
   }
 
-  // Método para actualizar la contraseña de un usuario
+  obtenerUsuarioPorId(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}.json`).pipe(
+      catchError(this.manejarError) // Manejo de errores
+    );
+  }  
+  
   actualizarContraseña(id: string, nuevaClave: string): Observable<any> {
     return this.http.patch(`${this.apiUrl}/${id}.json`, { password: nuevaClave }).pipe(
       catchError(this.manejarError) // Manejo de errores
     );
   }
+  
 
   // Método para manejar errores de las solicitudes HTTP
   private manejarError(error: HttpErrorResponse) {

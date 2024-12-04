@@ -41,27 +41,41 @@ export class CamaraPage implements OnInit {
     );
 
     this.html5QrCodeScanner.render(
-      (qrCodeMessage) => {
+      async (qrCodeMessage) => {
         if (!qrCodeMessage) {
           console.error('QR vacío o inválido.');
           this.mostrarToast('Código QR no válido.', 'danger');
           return;
         }
+    
         this.scanResult = qrCodeMessage;
         this.asignaturaId = this.extractAsignaturaId(qrCodeMessage);
+    
         if (this.asignaturaId) {
-          this.getAsignaturaName(this.asignaturaId).then(() => {
-            this.registrarAsistencia(this.asignaturaId, this.asignaturaName);
-          });
+          try {
+            // Esperar a obtener el nombre de la asignatura
+            await this.getAsignaturaName(this.asignaturaId);
+    
+            // Registrar asistencia con ID y nombre
+            if (this.asignaturaName) {
+              this.registrarAsistencia(this.asignaturaId, this.asignaturaName);
+            } else {
+              throw new Error('No se obtuvo el nombre de la asignatura.');
+            }
+          } catch (error) {
+            console.error('Error en el proceso de registro:', error);
+            this.mostrarToast('Error al procesar la asistencia.', 'danger');
+          }
         } else {
           this.mostrarToast('No se pudo extraer el ID de la asignatura.', 'danger');
         }
+    
         this.html5QrCodeScanner?.clear();
       },
       (errorMessage) => {
         console.log('Error en el escaneo:', errorMessage);
       }
-    );
+    );    
   }
 
   extractAsignaturaId(qrData: string): string {
@@ -74,28 +88,38 @@ export class CamaraPage implements OnInit {
     }
   }
 
-  async getAsignaturaName(asignaturaId: string): Promise<void> {
-    try {
-      const response = await this.httpClient
-        .get<{ nombre: string } | null>(
-          `https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas/${asignaturaId}.json`
-        )
-        .toPromise();
+async getAsignaturaName(asignaturaId: string): Promise<void> {
+  try {
+    // Asegurarse de que el ID no tenga la extensión .json
+    const idWithoutJson = asignaturaId.endsWith('.json') ? asignaturaId.slice(0, -5) : asignaturaId;
 
-      if (response && response.nombre) {
-        this.asignaturaName = response.nombre;
-      } else {
-        throw new Error('Asignatura no encontrada');
-      }
-    } catch (error) {
-      console.error('Error al obtener la asignatura:', error);
-      this.mostrarToast('Asignatura no encontrada o error en la red.', 'danger');
+    const response = await this.httpClient
+      .get<{ nombre: string } | null>(
+        `https://bd-progra-9976e-default-rtdb.firebaseio.com/asignaturas/${idWithoutJson}.json`
+      )
+      .toPromise();
+
+    console.log('Respuesta del servidor:', response); // Verifica la respuesta
+    if (response && response.nombre) {
+      this.asignaturaName = response.nombre;
+    } else {
+      throw new Error('Asignatura no encontrada o sin nombre.');
     }
+  } catch (error) {
+    console.error('Error al obtener la asignatura:', error);
+    this.mostrarToast('Asignatura no encontrada o error en la red.', 'danger');
   }
+}
+
+  
 
   registrarAsistencia(asignaturaId: string, asignaturaName: string) {
     const estudianteId = localStorage.getItem('userId');
     if (estudianteId) {
+      // Eliminar extensión .json si existe
+      asignaturaId = asignaturaId.replace('.json', '');
+  
+      // Obtener todas las asistencias existentes para asignar un nuevo ID
       this.httpClient
         .get<{ [key: string]: any }>('https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencias.json')
         .subscribe((data) => {
@@ -111,8 +135,12 @@ export class CamaraPage implements OnInit {
             estado: 'Presente',
           };
   
+          // Registrar la asistencia en la base de datos
           this.httpClient
-            .put(`https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencias/${newId}.json`, nuevaAsistencia)
+            .put(
+              `https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencias/${newId}.json`,
+              nuevaAsistencia
+            )
             .subscribe(
               async () => {
                 this.router.navigate(['/asistencias']);
@@ -120,16 +148,14 @@ export class CamaraPage implements OnInit {
               },
               (error: any) => {
                 console.error('Error al registrar la asistencia:', error);
-                this.mostrarToast('Error al registrar la asistencia');
+                this.mostrarToast('Error al registrar la asistencia', 'danger');
               }
             );
         });
     } else {
-      this.mostrarToast('No se encontró un ID de estudiante válido.');
+      this.mostrarToast('No se encontró un ID de estudiante válido.', 'danger');
     }
   }
-  
-  
 
   async mostrarToast(mensaje: string, color: 'success' | 'danger' | 'warning' = 'success') {
     const toast = await this.toastController.create({

@@ -2,14 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 
+interface Asistencia {
+  asistenciaId: string;
+  fecha: string;
+}
+
+interface Asignatura {
+  asignaturaId: string;
+  asignaturaName: string;
+  fecha: string;
+  asistencias: Asistencia[];
+  mostrarDetalles: boolean;
+}
+
 @Component({
   selector: 'app-asistencias',
   templateUrl: './asistencias.page.html',
   styleUrls: ['./asistencias.page.scss'],
 })
 export class AsistenciasPage implements OnInit {
-  asistencias: any[] = []; // Lista de asistencias filtradas
-  userId: string | null = null; // ID del estudiante actual
+  asignaturas: Asignatura[] = []; // Lista de asignaturas con sus respectivas asistencias
+  userId: string | null = null;
 
   constructor(
     private http: HttpClient,
@@ -17,10 +30,9 @@ export class AsistenciasPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Obtener el ID del usuario almacenado localmente
     this.userId = localStorage.getItem('userId');
     if (this.userId) {
-      console.log('ID del estudiante recuperado:', this.userId); // Verificar si se recupera el ID correctamente
+      console.log('ID del estudiante recuperado:', this.userId);
       this.cargarAsistencias();
     } else {
       console.log('No se encontró un ID de usuario en el almacenamiento local');
@@ -28,40 +40,40 @@ export class AsistenciasPage implements OnInit {
     }
   }
 
-  // Método para cargar las asistencias desde Firebase
   cargarAsistencias() {
     this.http
       .get<{ [key: string]: any }>('https://bd-progra-9976e-default-rtdb.firebaseio.com/asistencias.json')
       .subscribe(
         (data) => {
           if (data) {
-            // Verifica si el objeto tiene propiedades y si estas son las asistencias
-            const asistenciasArray = Object.values(data); // Extraemos el array de asistencias
+            const asistenciasArray = Object.values(data);
 
-            console.log('Asistencias obtenidas:', asistenciasArray); // Verificar asistencias obtenidas
+            this.asignaturas = asistenciasArray
+              .map((asistencia: any) => ({
+                ...asistencia,
+                asignaturaName: asistencia.asignaturaName || 'Sin Nombre',
+                mostrarDetalles: false,
+                asistencias: asistencia.asistencias || [],
+              }))
+              .filter((asistencia: any) => String(asistencia.estudianteId) === String(this.userId));
 
-            // Filtrar las asistencias que correspondan al estudiante actual
-            this.asistencias = asistenciasArray.filter((asistencia) => {
-              console.log(`Comparando estudianteId: ${asistencia.estudianteId} con userId: ${this.userId}`);
-
-              // Asegurarnos de que ambos valores sean cadenas antes de compararlos
-              return String(asistencia.estudianteId) === String(this.userId);
-            });
-
-            console.log('Asistencias filtradas:', this.asistencias); // Verificar asistencias filtradas
+            console.log('Asignaturas y asistencias filtradas:', this.asignaturas); // Verifica la carga de datos
           } else {
-            this.asistencias = []; // Si no hay datos, lista vacía
-            console.log('No se encontraron asistencias.');
+            this.asignaturas = [];
+            console.log('No se encontraron asignaturas.');
           }
         },
         (error) => {
-          console.error('Error al cargar asistencias:', error);
+          console.error('Error al cargar las asistencias:', error);
           this.mostrarToast('Error al cargar las asistencias.');
         }
       );
   }
 
-  // Método para mostrar un mensaje de error o éxito
+  toggleDetalle(index: number) {
+    this.asignaturas[index].mostrarDetalles = !this.asignaturas[index].mostrarDetalles;
+  }
+
   async mostrarToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -72,3 +84,4 @@ export class AsistenciasPage implements OnInit {
     await toast.present();
   }
 }
+

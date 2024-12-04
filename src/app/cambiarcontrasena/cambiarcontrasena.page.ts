@@ -21,52 +21,64 @@ export class CambiarcontrasenaPage implements OnInit {
 
   async onSubmit() {
     try {
-      this.usuariosService.obtenerUsuarios().subscribe(
-        (usuarios) => {
-          console.log('Usuarios obtenidos:', usuarios);
-          if (!usuarios || usuarios.length === 0) {
-            this.mostrarMensaje("No se pudieron obtener los usuarios");
+      // Obtener el ID del usuario en sesión desde el localStorage
+      let userId = localStorage.getItem('userId');
+      if (!userId) {
+        this.mostrarMensaje("No se pudo identificar al usuario actual");
+        return;
+      }
+
+      console.log(`ID del usuario en sesión (antes de ajuste): ${userId}`);
+
+      // Ajustar el ID restando 1 y convertirlo de nuevo a string (si es necesario)
+      const adjustedId = (Number(userId) - 1).toString();
+      userId = adjustedId;
+      console.log(`ID ajustado: ${userId}`);
+
+      // Obtener al usuario directamente por su ID
+      this.usuariosService.obtenerUsuarioPorId(userId).subscribe(
+        (usuario) => {
+          console.log('Usuario encontrado:', usuario);
+
+          if (!usuario) {
+            this.mostrarMensaje("Usuario no encontrado");
             return;
           }
 
-          const usuarioEncontrado = usuarios.find((u: { password: string }) => u.password === this.claveActual);
-          console.log('Usuario encontrado:', usuarioEncontrado);
-
-          if (!usuarioEncontrado) {
+          // Verificar que la contraseña actual coincida
+          if (usuario.password !== this.claveActual) {
             this.mostrarMensaje("La contraseña actual es incorrecta");
             return;
           }
 
+          // Verificar que las nuevas contraseñas coincidan
           if (this.nuevaClave !== this.confirmarClave) {
             this.mostrarMensaje("Las contraseñas no coinciden");
             return;
           }
 
-          // Agregar log para verificar la URL y los datos
-          console.log(`Actualizando contraseña para el usuario con ID: ${usuarioEncontrado.id}`);
-          console.log(`Datos: { password: ${this.nuevaClave} }`);
-
-          this.usuariosService.actualizarContraseña(usuarioEncontrado.id, this.nuevaClave).subscribe(
-            async (response) => {
-              console.log('Contraseña actualizada con éxito', response);
+          // Actualizar la contraseña del usuario
+          this.usuariosService.actualizarContraseña(userId, this.nuevaClave).subscribe(
+            async () => {
               this.mostrarMensaje("Clave cambiada correctamente");
+              // Limpiar los campos después de actualizar
               this.claveActual = '';
               this.nuevaClave = '';
               this.confirmarClave = '';
             },
             (error: HttpErrorResponse) => {
-              console.error('Error al cambiar la contraseña', error);
+              console.error('Error al cambiar la contraseña:', error);
               this.mostrarMensaje("Error al cambiar la contraseña");
             }
           );
         },
         (error: HttpErrorResponse) => {
-          console.error('Error al obtener los usuarios', error);
-          this.mostrarMensaje("Error al obtener los usuarios");
+          console.error('Error al obtener el usuario:', error);
+          this.mostrarMensaje("Error al obtener el usuario");
         }
       );
     } catch (error) {
-      console.error(error);
+      console.error('Error inesperado:', error);
       this.mostrarMensaje("Error inesperado");
     }
   }
