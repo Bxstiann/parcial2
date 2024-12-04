@@ -1,60 +1,58 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'; // Para espiar solicitudes HTTP
-import { LoginService } from './login.service'; // El servicio que vas a probar
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { LoginService } from './login.service';
 
 describe('LoginService', () => {
   let service: LoginService;
-  let httpMock: HttpTestingController; // Para controlar las peticiones HTTP
+  let httpMock: HttpTestingController;
+  const mockUsersResponse = {
+    '1': { name: 'John Doe', email: 'john@example.com' },
+    '2': { name: 'Jane Doe', email: 'jane@example.com' },
+  };
 
-  // Configuración inicial antes de cada prueba
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], // Importa el módulo para pruebas HTTP
-      providers: [LoginService] // Inyecta el servicio que deseas probar
+      imports: [HttpClientTestingModule],
+      providers: [LoginService],
     });
-    service = TestBed.inject(LoginService); // Obtén la instancia del servicio
-    httpMock = TestBed.inject(HttpTestingController); // Obtén el controlador de solicitudes HTTP
+
+    service = TestBed.inject(LoginService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
-  // Asegúrate de que no haya solicitudes HTTP pendientes después de cada prueba
   afterEach(() => {
-    httpMock.verify();
+    httpMock.verify(); // Asegura que no haya solicitudes pendientes
   });
 
-  // Prueba 1: Verificar que 'getUsers' hace la solicitud HTTP correctamente
-  it('should retrieve users from the API via GET', () => {
-    const mockUsers = [
-      { id: 1, name: 'John Doe' },
-      { id: 2, name: 'Jane Doe' },
-    ];
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-    // Llamada al servicio
-    service.getUsers().subscribe(users => {
-      // Asegúrate de que los usuarios sean los esperados
+  it('should retrieve users from Firebase and transform them into an array', () => {
+    service.getUsers().subscribe((users) => {
       expect(users.length).toBe(2);
-      expect(users).toEqual(mockUsers);
+      expect(users).toEqual([
+        { id: '1', name: 'John Doe', email: 'john@example.com' },
+        { id: '2', name: 'Jane Doe', email: 'jane@example.com' },
+      ]);
     });
 
-    // Verifica que se haya hecho la solicitud GET a la URL correcta
-    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/users');
-    expect(req.request.method).toBe('GET'); // Asegúrate de que es un método GET
-
-    // Proporciona una respuesta simulada
-    req.flush(mockUsers); // 'flush' envía la respuesta simulada
+    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/users.json');
+    expect(req.request.method).toBe('GET');
+    req.flush(mockUsersResponse); // Responder con los datos mockeados
   });
 
-  // Prueba 2: Verificar que maneja errores correctamente
-  it('should handle errors when the API fails', () => {
-    // Llamada al servicio
+  it('should handle error when API call fails', () => {
     service.getUsers().subscribe({
-      next: () => fail('expected an error, not users'),
+      next: () => fail('should have failed with a 500 error'),
       error: (error) => {
-        expect(error.status).toBe(404); // Verifica el código de error
-      }
+        expect(error.status).toBe(500);
+        expect(error.statusText).toBe('Server Error');
+      },
     });
 
-    // Simula una respuesta de error del servidor
-    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/users');
-    req.flush('Error', { status: 404, statusText: 'Not Found' });
+    const req = httpMock.expectOne('https://bd-progra-9976e-default-rtdb.firebaseio.com/users.json');
+    expect(req.request.method).toBe('GET');
+    req.flush('Error', { status: 500, statusText: 'Server Error' });
   });
 });
